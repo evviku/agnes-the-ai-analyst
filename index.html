@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agnes — ask anything</title>
+<title>Agnes — ask and reuse</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1104,7 +1104,7 @@
     <div class="catalog-band-top">
       <div>
         <h1 style="font-size:24px">Catalog</h1>
-        <p class="lede" style="font-size:15px">Discover new capabilities for Agnes — everything your organization has published. Add what your work needs to My Stack.</p>
+        <p class="lede" style="font-size:15px">Reuse the skills, plugins, and data your colleagues already built — so you don't start from scratch. Add what your work needs to My Stack.</p>
       </div>
       <button class="btn sm" id="browse-submit-btn" onclick="openUpload('flea')" style="flex-shrink:0"><span>+</span> Submit a skill or plugin</button>
     </div>
@@ -1280,8 +1280,8 @@
                     <circle cx="16" cy="16" r="14" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="1"/>
                   </svg>
                 </div>
-                <h1 class="land-h1">Ask anything about your company.</h1>
-                <p class="land-sub" id="land-sub">Agnes already knows your documentation, data, and workflows. Bring the same trusted knowledge to <b>every AI</b> you use.</p>
+                <h1 class="land-h1">Ask what your company knows. Reuse what it built.</h1>
+                <p class="land-sub" id="land-sub">Agnes knows your documentation, data, and workflows — and holds the <b>skills</b> your colleagues already built, so you don't start from scratch. Bring both to <b>every AI</b> you use.</p>
 
                 <div class="land-chatbox chat-input">
                   <input id="land-in" placeholder="How does customer onboarding work?" autofocus onkeydown="if(event.key==='Enter')landingSend()">
@@ -1296,8 +1296,8 @@
                   <div class="la-lead">
                     <span class="la-chk"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                     <div>
-                      <b>Same knowledge everywhere</b>
-                      <span>Connect once and use it across your favorite AI tools.</span>
+                      <b>Same knowledge and skills, everywhere</b>
+                      <span>Connect once — your company's answers and reusable skills, right inside Claude Code, Cursor, and VS Code.</span>
                     </div>
                   </div>
                   <div class="la-tools" aria-label="Supported tools">
@@ -2051,7 +2051,7 @@ function renderChatSub(){
   const text = synced
     ? 'Your workspace is ready — ask Agnes anything.'
     : "Ask away — I'll show you what I can already do, and what needs a quick connect first.";
-  const landText = "Agnes already knows your company's documentation, data, and workflows. Use it here, or bring the same trusted knowledge into the AI tools you already work with.";
+  const landText = "Agnes knows your company's documentation, data, and workflows — and holds the skills your colleagues already built, so you don't start from scratch. Use it here, or bring both into the AI tools you already work with.";
   if(threadSub) threadSub.textContent=text;
   if(landSub) landSub.textContent=landText;
 }
