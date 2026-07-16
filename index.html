@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agnes — ask and reuse</title>
+<link rel="icon" type="image/png" href="assets/agnes-orb.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,27 +16,46 @@
      (see --dim, and the *-deep category colors) — noted inline. Variable NAMES stay stable
      so every component below re-themes for free. */
   :root{
-    --bg:#ffffff; --bg-2:#f5f7fb; --canvas:#f3f6fa; --canvas-strong:#edf2f8; --panel:#ffffff; --panel-2:#f9fbfd;
-    --hero:#ffffff; --hero-ink:#111827; --hero-line:#d7deea;
-    --line:#e2e8f0; --line-2:#cbd5e1;
-    --text:#0f172a; --muted:#475569; --dim:#64748b;
-    --primary:#10b981; --primary-2:#059669; --primary-ink:#ffffff; --primary-soft:#ecfdf5; --primary-line:#a7f3d0;
-    --success:#0f766e; --success-2:#0f5f59; --success-soft:#e6f6f4; --success-line:#b7e3de;
-    --amber:#a16207; --amber-soft:#fff7e8; --amber-line:#f6dfb4;
-    --red:#dc2626; --red-soft:#feecec;
-    --radius:12px; --radius-input:12px; --pill:9999px; --maxw:1180px; --rail-w:240px;
+    /* ── Neutrals (Agnes design system): light #F8FAFC canvas, white surfaces, ink #101B2E.
+       Variable NAMES stay stable so every component re-themes for free. ── */
+    --bg:#ffffff; --bg-2:#f4f7fa; --canvas:#f8fafc; --canvas-strong:#eef2f6; --panel:#ffffff; --panel-2:#f4f7fa;
+    --surface-muted:#eef2f6; --surface-inverse:#081220;
+    --hero:#ffffff; --hero-ink:#101b2e; --hero-line:#e3e8ef;
+    --line:#e3e8ef; --line-2:#cdd5de; --border-subtle:#edf1f5; --border-interactive:#9aa7b8;
+    --text:#101b2e; --muted:#48566b; --dim:#69778c;
+    /* Brand palette — green is the ONE structural action color; violet/indigo are content-type
+       accents only; deep navy for dark brand moments; mint/brand-green for expressive orb + glow. */
+    --navy:#081220; --navy-2:#09152b; --indigo:#4549c9; --violet:#6c4dff; --brand-green:#00e59a; --mint:#e6fff3;
+    --primary:#00a971; --primary-2:#00875d; --primary-active:#086b4d; --primary-ink:#ffffff;
+    --primary-soft:#ecfff7; --primary-line:#a9fbd9; --primary-subtle-fg:#075840;
+    --success:#00875d; --success-2:#086b4d; --success-soft:#ecfff7; --success-line:#a9fbd9;
+    --amber:#c78300; --amber-soft:#fff9eb; --amber-line:#f3e0ae;
+    --red:#cf3a40; --red-soft:#fff4f3;
+    --info:#2369c8; --info-soft:#f1f7ff;
+    --radius:12px; --radius-input:8px; --pill:9999px; --maxw:1280px; --rail-w:240px; --chat-maxw:880px;
+    --radius-xs:4px; --radius-sm:6px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px; --radius-2xl:24px; --radius-full:9999px;
     --connect-band-h:0px;
-    /* terminal/code chrome — deliberately NOT the hero indigo, so the dark "night" band stays a
-       single hero moment rather than repeating across every instructional code block */
-    --term-bg:#1c1b1a; --term-line:#35332f; --term-text:#e8e6e3; --term-dim:#9b9691; --term-accent:#62aef0;
-    /* categorical kind colors draw from Notion's decorative sticker palette — never the structural
-       primary blue, so category tags can't be mistaken for the one brand action color.
-       Deepened from the raw sticker hexes where needed to clear 4.5:1 text contrast. */
-    --data:#185a57; --plugin:#391c57; --memory:#523410; --library:#0a5aa8; --recipe:#9c1264;
-    --data-soft:#e1f3f1; --plugin-soft:#f2e9fb; --memory-soft:#f3e7dc; --library-soft:#e9eff6; --recipe-soft:#fbe6f1;
-    /* Agnes — one dedicated accent, never reused for structural UI, so any "Agnes said/suggests this"
-       surface reads as the assistant speaking rather than as another button or status color. */
-    --agnes:#047857; --agnes-soft:#ecfdf5; --agnes-line:#a7f3d0;
+    /* elevation — cards are flat by default; shadows reserved for hover / popovers / dialogs */
+    --shadow-xs:0 1px 2px rgba(8,18,32,.04);
+    --shadow-sm:0 1px 3px rgba(8,18,32,.06),0 1px 2px rgba(8,18,32,.04);
+    --shadow-md:0 8px 24px rgba(8,18,32,.10),0 2px 6px rgba(8,18,32,.05);
+    --shadow-lg:0 18px 48px rgba(8,18,32,.14),0 4px 12px rgba(8,18,32,.06);
+    --shadow-glow-green:0 0 40px rgba(0,229,154,.20); --shadow-glow-violet:0 0 56px rgba(108,77,255,.22);
+    /* expressive brand gradients — only for orb, hero glow, and dark brand moments (never buttons/cards) */
+    --brand-gradient:linear-gradient(100deg,#00a971 0%,#00c98b 40%,#5f64e8 100%);
+    --orb-gradient:linear-gradient(145deg,#00e59a 5%,#1f9fe5 48%,#6c4dff 92%);
+    --hero-glow:radial-gradient(circle at 35% 30%,rgba(0,229,154,.14),transparent 34%),radial-gradient(circle at 70% 50%,rgba(108,77,255,.12),transparent 38%);
+    --dark-brand-surface:radial-gradient(circle at 68% 44%,rgba(0,229,154,.16),transparent 28%),radial-gradient(circle at 76% 52%,rgba(108,77,255,.22),transparent 36%),linear-gradient(135deg,#081220 0%,#09152b 54%,#11143c 100%);
+    /* terminal/code chrome — kept dark, distinct from the brand navy */
+    --term-bg:#0b1220; --term-line:#22304a; --term-text:#e8edf5; --term-dim:#8b98ad; --term-accent:#4fd6a6;
+    /* content types — Data=indigo, Skill=violet, Memory=green, Plugin=slate. Deepened to the spec
+       "foreground" values so tag text/dots clear AA on their tinted backgrounds. Never color-only:
+       always paired with a label + icon. (library=skill, recipe kept for the extra catalog kind.) */
+    --data:#34379f; --plugin:#303d52; --memory:#075840; --library:#5638db; --recipe:#9c1264; --skill:#5638db;
+    --data-soft:#f0f2ff; --plugin-soft:#f1f4f8; --memory-soft:#ecfff7; --library-soft:#f5f1ff; --recipe-soft:#fbe6f1; --skill-soft:#f5f1ff;
+    --data-border:#cbd0ff; --plugin-border:#cdd5de; --memory-border:#a9fbd9; --library-border:#ddceff; --skill-border:#ddceff;
+    /* Agnes assistant accent — the green voice of the product */
+    --agnes:#00875d; --agnes-soft:#ecfff7; --agnes-line:#a9fbd9;
     /* motion tokens keep timings/easing consistent across page and chat transitions */
     --motion-fast:.16s; --motion-med:.24s; --motion-slow:.32s;
     --ease-standard:cubic-bezier(.2,.7,.2,1); --ease-enter:cubic-bezier(.22,.9,.22,1);
@@ -74,13 +94,17 @@
   @media(max-width:760px){body.pre-chat .railnav{display:none}}
   .rail-logo{display:flex;align-items:center;gap:9px;padding:6px 8px 18px;cursor:pointer;color:var(--text)}
   .rail-orb{width:30px;height:30px;flex-shrink:0;display:block;filter:drop-shadow(0 2px 6px rgba(109,40,217,.22))}
-  .rail-logo-txt{font-size:18px;font-weight:650;letter-spacing:-.01em;line-height:1}
+  .rail-logo-stack{display:flex;flex-direction:column;gap:1px;min-width:0}
+  .rail-logo-txt{font-size:18px;font-weight:650;letter-spacing:-.01em;line-height:1.05}
+  .rail-logo-sub{font-size:11px;font-weight:500;color:var(--dim);letter-spacing:.01em;line-height:1}
   .rail-nav{display:flex;flex-direction:column;gap:3px}
   .rail-i{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;cursor:pointer;
     color:var(--muted);font-weight:500;font-size:14px}
   .rail-i svg{width:19px;height:19px;flex-shrink:0}
   .rail-i:hover{background:var(--panel-2);color:var(--text)}
-  .rail-i.on{background:var(--primary-soft);color:var(--primary-2);font-weight:600}
+  .rail-i.on{background:var(--primary-soft);color:var(--primary-subtle-fg);font-weight:600}
+  .rail-i.on svg{color:var(--primary)}
+  .wip-badge{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.07em;padding:1px 6px;border-radius:var(--pill);background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber-line);flex-shrink:0}
   /* "New chat" is the one deliberate way out of a fullscreen conversation back to the landing hero
      — see startNewChat(). Sits above the nav, not inside .rail-nav, so it never gets mistaken for
      a 4th destination alongside Chat/My Stack/Catalog. */
@@ -129,15 +153,17 @@
   h3{font-size:16px;margin:0;font-weight:600}
   p.lede{color:var(--muted);font-size:16px;max-width:64ch;margin:0 0 22px}
   .muted{color:var(--muted)} .dim{color:var(--dim)}
-  /* button-primary/secondary: pill-shaped marketing-style CTA — reserved for the one prominent
-     action per context. Dense per-row/per-card actions use .addbtn/.rmbtn/etc at the tighter
-     8px utility radius instead (see those rules below) — the contrast is intentional. */
-  .btn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:var(--pill);
-    font-weight:500;font-size:14px;cursor:pointer;border:1px solid var(--line-2);background:var(--panel);color:var(--text)}
-  .btn:hover{background:var(--panel-2)}
+  /* Buttons — 8px radius per the design system. Primary = green (the one action color);
+     secondary = white/border; both keep a stable height and a visible focus ring. */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:var(--radius-md);
+    font-weight:500;font-size:14px;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--secondary-foreground,#1c293d);
+    transition:background var(--motion-fast,.12s) ease,border-color var(--motion-fast,.12s) ease}
+  .btn:hover{background:var(--bg-2);border-color:var(--line-2)}
+  .btn:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
   .btn.primary{background:var(--primary);color:var(--primary-ink);border-color:var(--primary)}
-  .btn.primary:hover{background:var(--primary-2)}
-  .btn.sm{padding:6px 14px;font-size:13px;border-radius:var(--pill)}
+  .btn.primary:hover{background:var(--primary-2);border-color:var(--primary-2)}
+  .btn.primary:active{background:var(--primary-active);border-color:var(--primary-active)}
+  .btn.sm{height:32px;padding:0 12px;font-size:13px;border-radius:var(--radius-md)}
   /* hero-band: the single deep-indigo "night" moment — never repeated elsewhere in the app
      (terminal/code chrome below uses its own neutral --term-* tokens, not this indigo) */
   .hero{background:linear-gradient(180deg,#ffffff 0%,#f7faff 100%);color:var(--hero-ink);border:1px solid var(--line);
@@ -493,6 +519,106 @@
   .invoke{font-family:ui-monospace,monospace;font-size:12px;color:var(--library);
     background:var(--library-soft);border:1px solid #c7dbef;border-radius:var(--radius-input);padding:2px 8px;display:inline-block}
   .comp .ct.agent~.cbody .invoke{color:var(--plugin);background:var(--plugin-soft);border-color:#e0d3ee}
+
+  /* ── Agents (the AI harness): compose a focused agent from skills in the collection.
+     Uses the dedicated --agnes accent throughout, so "an agent you built" reads as its own
+     surface — distinct from the structural primary (add-to-stack) and category colors. ── */
+  .agents-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .agent-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;transition:.15s;cursor:pointer}
+  .agent-card:hover{border-color:var(--line-2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.06)}
+  .agent-card .ac-top{display:flex;align-items:center;gap:11px}
+  .agent-ico{width:38px;height:38px;border-radius:10px;background:var(--agnes-soft);color:var(--agnes);display:grid;place-items:center;flex-shrink:0}
+  .agent-ico svg{width:21px;height:21px}
+  .agent-card h3{font-size:15px;line-height:1.25}
+  .agent-card .ac-role{font-size:13px;color:var(--muted);line-height:1.5;min-height:39px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .agent-card .ac-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:11px;margin-top:auto}
+  .agent-card .ac-count{font-size:12.5px;color:var(--dim);font-weight:500}
+  .agent-card .ac-del{border:none;background:none;color:var(--dim);cursor:pointer;font-size:13px;padding:2px 4px;border-radius:6px}
+  .agent-card .ac-del:hover{color:var(--red);background:var(--red-soft)}
+  .agent-new{border:1.5px dashed var(--line-2);background:var(--panel-2);color:var(--muted);border-radius:12px;padding:16px 18px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:14px;font-weight:600;cursor:pointer;min-height:158px;transition:.15s}
+  .agent-new:hover{border-color:var(--agnes);color:var(--agnes);background:var(--agnes-soft)}
+  /* builder */
+  .ab-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;margin-bottom:14px;background:none;border:none;font:inherit;padding:0}
+  .ab-back:hover{color:var(--text)}
+  .ab-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+  @media(max-width:900px){.ab-grid{grid-template-columns:1fr}}
+  .ab-field{margin-bottom:16px}
+  .ab-field label{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .ab-field input,.ab-field textarea{width:100%;border:1px solid var(--line-2);border-radius:var(--radius-input);padding:9px 12px;font:inherit;font-size:14px;color:var(--text);background:var(--panel);resize:vertical}
+  .ab-field input:focus,.ab-field textarea:focus{outline:none;border-color:var(--agnes);box-shadow:0 0 0 3px var(--agnes-soft)}
+  .skillgroup .sg-hd{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;color:var(--muted);padding:16px 0 6px;border-bottom:1px solid var(--line)}
+  .skillgroup .sg-hd .sg-count{margin-left:auto;font-size:11.5px;color:var(--dim);font-weight:500}
+  .skillrow{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+  .skillrow:last-child{border-bottom:none}
+  .skillrow .sr-body{flex:1;min-width:0}
+  .skillrow .sr-name{font-weight:600;font-size:14px}
+  .skillrow .sr-desc{font-size:13px;color:var(--muted);margin:2px 0 6px;line-height:1.5}
+  .eq-btn{flex-shrink:0;border:1px solid var(--line-2);background:var(--panel);color:var(--text);border-radius:var(--pill);padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
+  .eq-btn:hover{border-color:var(--agnes);color:var(--agnes)}
+  .eq-btn.on{background:var(--agnes-soft);border-color:var(--agnes-line);color:var(--agnes)}
+  .agent-runtime{white-space:pre-wrap;line-height:1.85;margin:0}
+  .loadout .lo-run code.invoke,.agent-runtime .k{white-space:normal}
+  .loadout{position:sticky;top:20px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .loadout h3{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 4px}
+  .loadout .lo-sub{font-size:12.5px;color:var(--dim);margin:0 0 14px}
+  .loadout .lo-empty{font-size:13px;color:var(--dim);line-height:1.55}
+  .loadout .lo-item{display:flex;flex-direction:column;gap:5px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .loadout .lo-item:last-of-type{border-bottom:none}
+  .loadout .lo-name{font-size:13.5px;font-weight:600}
+  .loadout .lo-run{margin-top:15px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--dim);line-height:1.7}
+  /* build-agent: section scaffolding, surface toggles, embedded preview */
+  .secthead{display:flex;gap:12px;align-items:flex-start;margin:0 0 14px}
+  .secno{width:24px;height:24px;border-radius:7px;background:var(--agnes-soft);color:var(--agnes);font-size:12.5px;font-weight:700;display:grid;place-items:center;flex-shrink:0;margin-top:1px}
+  .secthead h2{font-size:15px;text-transform:none;letter-spacing:0;color:var(--text)}
+  .secnote{font-size:12px;font-weight:500;color:var(--dim);margin-left:4px}
+  .secsub{font-size:13px;color:var(--muted);margin:3px 0 0;line-height:1.5}
+  .lblhint{font-weight:500;text-transform:none;letter-spacing:0;color:var(--dim)}
+  /* collapsible section cards */
+  .panel.sec .secthead{cursor:pointer;user-select:none;margin-bottom:14px}
+  .panel.sec .secthead .grow{flex:1;min-width:0}
+  .panel.sec.collapsed .secthead{margin-bottom:0}
+  .panel.sec.collapsed .sec-body{display:none}
+  .sec-sum{margin-left:auto;align-self:center;font-size:12.5px;color:var(--dim);white-space:nowrap;padding-left:10px}
+  .panel.sec:not(.collapsed) .sec-sum{display:none}
+  .sec-chev{align-self:center;flex-shrink:0;margin-left:14px;width:30px;height:30px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel);color:var(--muted);display:grid;place-items:center;transition:transform var(--motion-fast) ease,background var(--motion-fast),color var(--motion-fast),border-color var(--motion-fast)}
+  .sec-chev svg{width:17px;height:17px;display:block}
+  .panel.sec .secthead:hover .sec-chev{background:var(--agnes-soft);border-color:var(--agnes-line);color:var(--agnes)}
+  .panel.sec.collapsed .sec-chev{transform:rotate(-90deg)}
+  .surfrow{padding:13px 0;border-bottom:1px solid var(--line)}
+  .surfrow:last-child{border-bottom:none}
+  .surfrow.off{opacity:.58}
+  .surf-top{display:flex;align-items:flex-start;gap:14px}
+  .surf-top .grow{flex:1;min-width:0}
+  .surf-scope{margin:9px 0 0 52px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:12.5px}
+  .seg{border:1px solid var(--line-2);border-radius:var(--pill);padding:3px 11px;font-size:12.5px;cursor:pointer;color:var(--muted)}
+  .seg.on{background:var(--agnes-soft);border-color:var(--agnes-line);color:var(--agnes);font-weight:600}
+  .switch{position:relative;display:inline-block;width:38px;height:22px;flex-shrink:0;cursor:pointer;margin-top:1px}
+  .switch input{opacity:0;width:0;height:0}
+  .switch .track{position:absolute;inset:0;background:var(--line-2);border-radius:var(--pill);transition:.18s}
+  .switch .track:before{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.18s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .switch input:checked+.track{background:var(--agnes)}
+  .switch input:checked+.track:before{transform:translateX(16px)}
+  .switch input:disabled+.track{opacity:.55;cursor:not-allowed}
+  .bnd-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .bnd-row:last-child{border-bottom:none}
+  .bnd-k{color:var(--muted)} .bnd-v{font-weight:600;text-align:right}
+  .kai-card{border:1px solid var(--line-2);border-radius:14px;overflow:hidden;background:var(--panel);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+  .kai-card.draft{opacity:.85;border-style:dashed}
+  .kai-hd{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--agnes);color:#fff}
+  .kai-hd .kai-ava{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.18);display:grid;place-items:center;flex-shrink:0}
+  .kai-hd .kai-ava svg{width:18px;height:18px}
+  .kai-name{font-weight:700;font-size:14px;line-height:1.2}
+  .kai-role{font-size:11.5px;opacity:.92;line-height:1.3;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .kai-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);margin-left:auto;flex-shrink:0}
+  .kai-dot.on{background:#4ade80;box-shadow:0 0 0 3px rgba(74,222,128,.3)}
+  .kai-body{padding:14px}
+  .kai-bubble{background:var(--agnes-soft);color:var(--text);border-radius:12px;border-top-left-radius:4px;padding:10px 12px;font-size:13px;line-height:1.5}
+  .kai-input{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--line-2);border-radius:var(--pill);padding:7px 8px 7px 14px;font-size:12.5px;color:var(--dim)}
+  .kai-ph{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .kai-send{width:24px;height:24px;border-radius:50%;background:var(--agnes);color:#fff;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+  .pv-meta{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+  .pv-row{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:4px 0}
+  .pv-k{color:var(--muted)} .pv-v{font-weight:600}
   /* library upload */
   .drop{border:1.5px dashed var(--line-2);border-radius:10px;padding:20px;text-align:center;
     color:var(--muted);font-size:13.5px;cursor:pointer;transition:.15s;background:var(--panel-2)}
@@ -542,10 +668,20 @@
         --land-green:#10b981; --land-green-dark:#059669; --land-green-soft:#ecfdf5;
         --land-shadow:0 12px 30px rgba(16,185,129,.10);
   }
-      .land-hero{background:#ffffff;border:1px solid var(--land-border);
-    border-radius:24px;padding:30px 34px;box-shadow:var(--land-shadow)}
-  .land-orb-wrap{display:flex;justify-content:center;margin-bottom:4px}
-  .land-orb{width:76px;height:76px;filter:drop-shadow(0 6px 16px rgba(109,40,217,.24))}
+      .land-hero{background:transparent;border:none;border-radius:0;padding:0;box-shadow:none}
+  /* Light brand hero — the expressive Agnes moment: a floating orb over a soft green/violet glow,
+     with the two-line headline (green accent on "everything"). Calm, premium, not a dark banner. */
+  .land-hero-brand{position:relative;text-align:center;padding:14px 0 8px;margin-bottom:6px}
+  .land-hero-brand::before{content:"";position:absolute;left:50%;top:-8px;transform:translateX(-50%);
+    width:min(760px,100%);height:280px;pointer-events:none;z-index:0;background:var(--hero-glow);
+    -webkit-mask-image:radial-gradient(closest-side,#000 60%,transparent);mask-image:radial-gradient(closest-side,#000 60%,transparent)}
+  .land-orb{position:relative;z-index:1;display:inline-block;width:96px;height:96px;margin-bottom:6px;
+    filter:drop-shadow(0 10px 26px rgba(0,169,113,.22));animation:orbFloat 8s var(--ease-standard) infinite}
+  @keyframes orbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  @media(prefers-reduced-motion:reduce){.land-orb{animation:none}}
+  .land-h1{position:relative;z-index:1;margin:2px auto 0;font-size:34px;line-height:1.1;letter-spacing:-.025em;
+    max-width:640px;color:var(--text);text-align:center;font-weight:700}
+  .lh-accent{color:var(--primary)}
   .land-eyebrow{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;
     background:var(--land-green-soft);color:var(--land-green-dark);font-size:13px;font-weight:650;margin-bottom:18px}
   .land-h1{margin:0 auto;font-size:30px;line-height:1.12;letter-spacing:-.03em;max-width:640px;color:var(--land-text);text-align:center}
@@ -1035,32 +1171,8 @@
 
 <aside class="railnav" id="railnav">
   <a class="rail-logo" data-go="chat" title="Agnes">
-    <svg class="rail-orb" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="agnesOrbGrad" x1="6" y1="4" x2="26" y2="28" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stop-color="#7ff0c8"/>
-          <stop offset=".46" stop-color="#33c1a8"/>
-          <stop offset="1" stop-color="#6d28d9"/>
-        </linearGradient>
-        <radialGradient id="agnesOrbSheen" cx="11" cy="9" r="15" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stop-color="#ffffff" stop-opacity=".55"/>
-          <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-        </radialGradient>
-        <clipPath id="agnesOrbClip"><circle cx="16" cy="16" r="14"/></clipPath>
-      </defs>
-      <circle cx="16" cy="16" r="14" fill="url(#agnesOrbGrad)"/>
-      <g clip-path="url(#agnesOrbClip)">
-        <path d="M0 19 C 8 14, 12 22, 18 18 S 28 15, 34 20 L 34 34 L 0 34 Z" fill="#ffffff" opacity=".16"/>
-        <path d="M0 22.5 C 9 17.5, 13 25, 20 21 S 30 19.5, 34 23.5" stroke="#ffffff" stroke-opacity=".38" stroke-width="1" fill="none"/>
-        <path d="M9 12 L 15 9.6 L 21 13.6" stroke="#ffffff" stroke-opacity=".5" stroke-width=".6" fill="none"/>
-        <circle cx="9" cy="12" r="1" fill="#ffffff"/>
-        <circle cx="15" cy="9.6" r="1.15" fill="#ffffff"/>
-        <circle cx="21" cy="13.6" r="1" fill="#eaf7ff"/>
-        <ellipse cx="12" cy="10" rx="9.5" ry="7" fill="url(#agnesOrbSheen)"/>
-      </g>
-      <circle cx="16" cy="16" r="14" fill="none" stroke="#ffffff" stroke-opacity=".3" stroke-width="1"/>
-    </svg>
-    <span class="rail-logo-txt">agnes</span>
+    <span class="rail-orb" data-orb aria-hidden="true"></span>
+    <span class="rail-logo-stack"><span class="rail-logo-txt">agnes</span><span class="rail-logo-sub">Knowledge Layer</span></span>
   </a>
 
   <nav class="rail-nav">
@@ -1070,6 +1182,9 @@
     <a class="rail-i" data-nav="stack" data-go="stack">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 8.5 12 4l9 4.5-9 4.5-9-4.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m3 12.5 9 4.5 9-4.5M3 16.5l9 4.5 9-4.5" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
       My Stack</a>
+    <a class="rail-i" data-nav="agents" data-go="agents">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 4.2v3.8M8.5 20v1.5M15.5 20v1.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9.3" cy="13.5" r="1.1" fill="currentColor"/><circle cx="14.7" cy="13.5" r="1.1" fill="currentColor"/></svg>
+      Agents<span class="wip-badge">WIP</span></a>
     <a class="rail-i" id="nav-catalog" data-nav="browse" data-go="browse">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 6l1 13a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1l1-13M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
       Catalog</a>
@@ -1229,6 +1344,13 @@
   </div>
 </section>
 
+<!-- ============ BUILD AGENT — configure the company's single embedded assistant ("your Kai"):
+     identity + company knowledge + skills + surfaces, within admin boundaries. renderAgents()
+     fills #agents-wrap with the builder + live preview; see the Build Agent module in the script. -->
+<section class="screen" id="agents">
+  <div class="wrap" id="agents-wrap"></div>
+</section>
+
 <!-- ============ DETAIL ============ -->
 <section class="screen" id="detail">
   <div class="wrap" id="detailwrap"></div>
@@ -1258,30 +1380,11 @@
                   </button>
                 </div>
                 <div class="land-hero">
-                <div class="land-orb-wrap">
-                  <svg class="land-orb" viewBox="0 0 32 32" aria-hidden="true">
-                    <defs>
-                      <linearGradient id="landOrbGrad" x1="6" y1="4" x2="26" y2="28" gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#7ff0c8"/><stop offset=".46" stop-color="#33c1a8"/><stop offset="1" stop-color="#6d28d9"/>
-                      </linearGradient>
-                      <radialGradient id="landOrbSheen" cx="11" cy="9" r="15" gradientUnits="userSpaceOnUse">
-                        <stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
-                      </radialGradient>
-                      <clipPath id="landOrbClip"><circle cx="16" cy="16" r="14"/></clipPath>
-                    </defs>
-                    <circle cx="16" cy="16" r="14" fill="url(#landOrbGrad)"/>
-                    <g clip-path="url(#landOrbClip)">
-                      <path d="M0 19 C 8 14, 12 22, 18 18 S 28 15, 34 20 L 34 34 L 0 34 Z" fill="#fff" opacity=".16"/>
-                      <path d="M0 22.5 C 9 17.5, 13 25, 20 21 S 30 19.5, 34 23.5" stroke="#fff" stroke-opacity=".38" stroke-width="1" fill="none"/>
-                      <path d="M9 12 L 15 9.6 L 21 13.6" stroke="#fff" stroke-opacity=".5" stroke-width=".6" fill="none"/>
-                      <circle cx="9" cy="12" r="1" fill="#fff"/><circle cx="15" cy="9.6" r="1.15" fill="#fff"/><circle cx="21" cy="13.6" r="1" fill="#eaf7ff"/>
-                      <ellipse cx="12" cy="10" rx="9.5" ry="7" fill="url(#landOrbSheen)"/>
-                    </g>
-                    <circle cx="16" cy="16" r="14" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="1"/>
-                  </svg>
+                <div class="land-hero-brand">
+                  <span class="land-orb" data-orb aria-hidden="true"></span>
+                  <h1 class="land-h1">Ask anything.<br>Reuse <span class="lh-accent">everything.</span></h1>
+                  <p class="land-sub" id="land-sub">Your company's knowledge, plus the <b>skills</b> your colleagues built — in <b>every AI</b> you use.</p>
                 </div>
-                <h1 class="land-h1">Ask anything. Reuse everything.</h1>
-                <p class="land-sub" id="land-sub">Your company's knowledge, plus the <b>skills</b> your colleagues built — in <b>every AI</b> you use.</p>
 
                 <div class="land-chatbox chat-input">
                   <input id="land-in" placeholder="How does customer onboarding work?" autofocus onkeydown="if(event.key==='Enter')landingSend()">
@@ -1417,7 +1520,7 @@
 <div class="tour-scrim" id="tour-scrim" onclick="endStackTour(false)"></div>
 <div class="tour-pop" id="tour-pop" role="dialog" aria-modal="false" aria-live="polite">
   <button class="tour-x" onclick="endStackTour(false)" aria-label="Close walkthrough">×</button>
-  <div class="tour-agnes"><span class="av" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28"><defs><linearGradient id="orbTourGrad" x1="6" y1="4" x2="26" y2="28" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7ff0c8"/><stop offset=".46" stop-color="#33c1a8"/><stop offset="1" stop-color="#6d28d9"/></linearGradient><radialGradient id="orbTourSheen" cx="11" cy="9" r="15" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><clipPath id="orbTourClip"><circle cx="16" cy="16" r="14"/></clipPath></defs><circle cx="16" cy="16" r="14" fill="url(#orbTourGrad)"/><g clip-path="url(#orbTourClip)"><path d="M0 19 C 8 14, 12 22, 18 18 S 28 15, 34 20 L 34 34 L 0 34 Z" fill="#fff" opacity=".16"/><path d="M9 12 L 15 9.6 L 21 13.6" stroke="#fff" stroke-opacity=".5" stroke-width=".6" fill="none"/><circle cx="9" cy="12" r="1" fill="#fff"/><circle cx="15" cy="9.6" r="1.15" fill="#fff"/><circle cx="21" cy="13.6" r="1" fill="#eaf7ff"/><ellipse cx="12" cy="10" rx="9.5" ry="7" fill="url(#orbTourSheen)"/></g><circle cx="16" cy="16" r="14" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="1"/></svg></span><span class="nm">Agnes is showing you around</span></div>
+  <div class="tour-agnes"><span class="av" data-orb aria-hidden="true"></span><span class="nm">Agnes is showing you around</span></div>
   <div class="tour-title" id="tour-title">Tour title</div>
   <div class="tour-desc" id="tour-desc"></div>
   <ul class="tour-points" id="tour-points"></ul>
@@ -1735,6 +1838,11 @@ function applyScenario(key,closePanel){
   appState.hasAnsweredFirstQuestion=false;
   stack=new Set(s.stackIds||[]);
   savedStack=new Set(stack);
+  // The embedded assistants (the harness) reset per scenario, like the stack, so demo state
+  // stays coherent — and re-ground themselves in whatever knowledge the new scenario's stack holds.
+  agents=defaultAgents();
+  currentAgentId=null;
+  collapsedSections=new Set(SECTION_KEYS);
   // Snapshot what the workspace was PROVISIONED with at landing (admin floor + any org defaults).
   // "Set up your Stack" is about the user personalizing beyond this baseline — not about the
   // preconfigured stack an admin handed them. See renderJourneyPanel().
@@ -1851,6 +1959,374 @@ function matches(c){
     (!tagFilter||(c.tags||[]).includes(tagFilter)) &&
     (c.name.toLowerCase().includes(q)||c.desc.toLowerCase().includes(q)||(c.tags||[]).some(t=>t.includes(q)));
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BUILD AGENT — one feature of Agnes, not a separate product. Agnes stays the
+   company knowledge + skills layer; here a permissioned builder assembles a
+   single EMBEDDED assistant (the company's own "Kai") out of those same
+   ingredients:
+     • grounded in the company KNOWLEDGE Agnes already holds (knowledge-first),
+     • given SKILLS from the collection for the actions it can take,
+     • made SURFACE-AWARE — one base config + per-surface overlays,
+     • inside admin-set BOUNDARIES (model, monthly usage limit) shown as defaults.
+   Not a gallery: there is one embedded assistant per company, configured here,
+   with a live preview so you can watch a blank runtime "become Kai".
+   ══════════════════════════════════════════════════════════════════════════ */
+
+// Flatten every skill across all catalog plugins into one addressable collection.
+// key = "<pluginId>::<index>" so equipped skills survive re-renders by identity.
+const SKILLS = (()=>{
+  const out=[];
+  CATALOG.filter(c=>c.type==='plugin').forEach(p=>{
+    (p.d && p.d.components || []).forEach((comp,i)=>{
+      if(comp[0]!=='skill') return;   // agents-inside-plugins are excluded from the harness by design
+      out.push({key:`${p.id}::${i}`, pluginId:p.id, pluginName:p.name, category:p.category,
+                name:comp[1], desc:comp[2], invoke:comp[3]});
+    });
+  });
+  return out;
+})();
+const SKILL_BY_KEY = Object.fromEntries(SKILLS.map(s=>[s.key,s]));
+
+// Company knowledge Agnes already curates — data packages + memory. This is what the
+// embedded assistant is grounded in; the builder just chooses which of it applies. Grounding
+// is therefore ~free: it's Agnes's existing knowledge layer pointed at the agent.
+const KNOWLEDGE = CATALOG.filter(c=>c.type==='data'||c.type==='memory')
+  .map(c=>({id:c.id, name:c.name, type:c.type, desc:c.desc}));
+
+// Example product surfaces the assistant can be embedded in. 'global' is the base scope
+// (always on); the rest are variants that can narrow which of the base skills fire there.
+const SURFACE_DEFS = [
+  {id:'global',    name:'Everywhere',        hint:'Base — applies across the whole product'},
+  {id:'editor',    name:'SQL / code editor', hint:'While writing queries or transformations'},
+  {id:'flows',     name:'Flow builder',      hint:'While building data pipelines'},
+  {id:'dashboard', name:'Dashboards',        hint:'While viewing reports'},
+  {id:'docs',      name:'Docs & help',       hint:'In the in-product help panel'},
+];
+
+// A company can build several embedded assistants (e.g. a data "Kai" and an ops copilot), each a
+// full config. `agents` holds them; currentAgentId is the one open in the builder (null = list).
+let agents = [];
+let currentAgentId = null;
+let agentSeq = 0;
+const SECTION_KEYS = ['identity','knowledge','skills','surfaces','boundaries'];
+let collapsedSections = new Set(SECTION_KEYS);   // sections start collapsed by default; shared across agents
+
+function makeAgent(over){
+  return Object.assign({
+    id:`agent-${++agentSeq}`,
+    name:'New assistant', role:'', tone:'concise', greeting:"Hi! How can I help?",
+    knowledge:new Set(), skills:[],
+    surfaces:SURFACE_DEFS.map(d=>({id:d.id, enabled:d.id==='global', scope:'all', skills:[]})),
+    limit:2000, model:'Claude Sonnet 4.5', live:false,
+  }, over||{});
+}
+
+// Reset per scenario (see applyScenario), like `stack`. Seeded assistants ground themselves by
+// default in whatever company knowledge the scenario's stack holds — so they inherit Agnes's world.
+function defaultAgents(){
+  agentSeq = 0;
+  const groundedKnowledge = KNOWLEDGE.filter(k=>stack.has(k.id)).map(k=>k.id);
+  const stackSkills = SKILLS.filter(s=>stack.has(s.pluginId)).map(s=>s.key);
+  const base = stackSkills.slice(0,5);
+  const kai = makeAgent({
+    name:'Kai',
+    role:'The in-product assistant for your team.',
+    greeting:"Hi, I'm Kai. Ask me anything about your data, your projects, or how to get something done here.",
+    knowledge:new Set(groundedKnowledge),
+    skills:base.slice(),
+    surfaces:SURFACE_DEFS.map(d=>({id:d.id, enabled:d.id!=='docs', scope:d.id==='editor'?'custom':'all', skills:d.id==='editor'?base.slice(0,2):[]})),
+    live:true,
+  });
+  // a second, lighter assistant — proves more than one is possible, and shows a Draft state.
+  const ops = makeAgent({
+    name:'Ops Copilot',
+    role:'Handles engineering-ops questions.',
+    greeting:"Hey — ask me about incidents, status, or issues.",
+    knowledge:new Set(groundedKnowledge.slice(0,2)),
+    skills:SKILLS.filter(s=>s.pluginId==='eng_intel'&&stack.has(s.pluginId)).map(s=>s.key),
+    surfaces:SURFACE_DEFS.map(d=>({id:d.id, enabled:(d.id==='global'||d.id==='flows'), scope:'all', skills:[]})),
+    live:false,
+  });
+  return [kai, ops];
+}
+
+function currentAgent(){ return agents.find(a=>a.id===currentAgentId)||null; }
+
+// ── agent-level actions ──
+function newAgent(){ const a=makeAgent({name:`New assistant ${agents.length+1}`}); agents.push(a); currentAgentId=a.id; collapsedSections=new Set(SECTION_KEYS); renderAgents(); window.scrollTo(0,0); }
+function openAgent(id){ currentAgentId=id; collapsedSections=new Set(SECTION_KEYS); renderAgents(); window.scrollTo(0,0); }
+function closeBuilder(){ currentAgentId=null; renderAgents(); window.scrollTo(0,0); }
+function deleteAgent(id){ const a=agents.find(x=>x.id===id); agents=agents.filter(x=>x.id!==id); if(currentAgentId===id) currentAgentId=null; renderAgents(); if(a) toast(`${a.name} deleted`); }
+function toggleSection(key){ collapsedSections.has(key)?collapsedSections.delete(key):collapsedSections.add(key); renderAgents(); }
+
+// ── field mutators (operate on the agent open in the builder). Text inputs update silently
+//    (setA) so focus survives typing; toggles do a full renderAgents(). ──
+function setA(field,val){ const a=currentAgent(); if(a) a[field]=val; }
+function setTone(t){ const a=currentAgent(); if(a){ a.tone=t; renderAgents(); } }
+function toggleKnowledge(id){ const a=currentAgent(); if(!a) return; a.knowledge.has(id)?a.knowledge.delete(id):a.knowledge.add(id); renderAgents(); }
+function toggleBaseSkill(key){
+  const a=currentAgent(); if(!a) return;
+  const i=a.skills.indexOf(key);
+  if(i>=0){
+    a.skills.splice(i,1);
+    a.surfaces.forEach(su=>{ su.skills=su.skills.filter(k=>k!==key); });  // drops out of overlays too
+  } else a.skills.push(key);
+  renderAgents();
+}
+function toggleSurface(id){ const a=currentAgent(); const su=a&&a.surfaces.find(s=>s.id===id); if(su){ su.enabled=!su.enabled; renderAgents(); } }
+function setSurfaceScope(id,scope){
+  const a=currentAgent(); const su=a&&a.surfaces.find(s=>s.id===id); if(!su) return;
+  su.scope=scope;
+  if(scope==='all') su.skills=[];
+  else if(!su.skills.length) su.skills=a.skills.slice();   // seed custom from base
+  renderAgents();
+}
+function toggleSurfaceSkill(id,key){ const a=currentAgent(); const su=a&&a.surfaces.find(s=>s.id===id); if(!su) return; const i=su.skills.indexOf(key); i>=0?su.skills.splice(i,1):su.skills.push(key); renderAgents(); }
+function toggleLive(){ const a=currentAgent(); if(a){ a.live=!a.live; renderAgents(); toast(a.live?`${a.name} is live`:`${a.name} set to draft`); } }
+function effectiveSurfaceSkills(a,su){ return su.scope==='custom' ? su.skills : a.skills; }
+
+function renderAgents(){
+  const wrap=document.getElementById('agents-wrap'); if(!wrap) return;
+  if(!agents.length) agents=defaultAgents();
+  wrap.innerHTML = currentAgentId ? assistantHtml() : agentListHtml();
+}
+
+function agentListHtml(){
+  const cards=agents.map(a=>{
+    const kn=a.knowledge.size, sk=a.skills.length, liveN=a.surfaces.filter(s=>s.enabled).length;
+    const chips=a.skills.slice(0,3).map(k=>{const s=SKILL_BY_KEY[k];return s?`<span class="tag comp">${esc(s.name)}</span>`:''}).join('');
+    const more=sk>3?`<span class="tag comp">+${sk-3}</span>`:'';
+    return `<div class="agent-card" onclick="openAgent('${a.id}')">
+      <div class="ac-top">
+        <div class="agent-ico">${AGENT_ICON}</div>
+        <div style="min-width:0;flex:1"><h3>${esc(a.name)||'Untitled'}</h3></div>
+        <span class="tag ${a.live?'src-curated':'status'}" style="flex-shrink:0">${a.live?'● Live':'○ Draft'}</span>
+      </div>
+      <div class="ac-role">${esc(a.role)||'<span style="color:var(--dim)">No role yet — click to configure.</span>'}</div>
+      <div class="chips">${chips||'<span class="tag comp" style="opacity:.7">No skills yet</span>'}${more}</div>
+      <div class="ac-foot">
+        <span class="ac-count">${kn} knowledge · ${sk} skill${sk===1?'':'s'} · ${liveN} surface${liveN===1?'':'s'}</span>
+        <button class="ac-del" title="Delete assistant" onclick="event.stopPropagation();deleteAgent('${a.id}')">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+  return `
+    <div style="margin-bottom:4px">
+      <h1 style="font-size:24px;margin-bottom:6px">Agents</h1>
+      <p class="lede" style="font-size:15px;margin-bottom:20px;max-width:680px">Build assistants embedded in your product — each grounded in your company knowledge, with the skills you choose. Keep a single company assistant, or build several for different jobs.</p>
+    </div>
+    <div class="agents-grid">
+      ${cards}
+      <div class="agent-new" onclick="newAgent()"><span style="font-size:18px">+</span> New agent</div>
+    </div>`;
+}
+
+function assistantHtml(){
+  const a=currentAgent(); if(!a) return agentListHtml();
+  const liveN=a.surfaces.filter(s=>s.enabled).length;
+  const cap=s=>s?s.charAt(0).toUpperCase()+s.slice(1):'';
+  return `
+    <button class="ab-back" onclick="closeBuilder()">← All agents</button>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:2px 0 18px">
+      <div style="min-width:0">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--agnes)">Configuring assistant</div>
+        <h1 class="build-h1" style="font-size:24px;margin-top:2px">${esc(a.name)||'Untitled'}</h1>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;margin-top:4px">
+        <span class="tag ${a.live?'src-curated':'status'}">${a.live?'● Live':'○ Draft'}</span>
+        <button class="btn sm ${a.live?'':'primary'}" onclick="toggleLive()">${a.live?'Set to draft':'Set live'}</button>
+      </div>
+    </div>
+    <div class="ab-grid">
+      <div>
+        ${section('identity',1,'Identity','','How it introduces itself.',`${esc(a.name)||'Unnamed'} · ${cap(a.tone)}`, identityBody(a))}
+        ${section('knowledge',2,'Knowledge','what it knows',`Ground it in your company knowledge — what makes it <i>yours</i>, not a generic chatbot.`,`${a.knowledge.size} source${a.knowledge.size===1?'':'s'}`, knowledgeBody(a))}
+        ${section('skills',3,'Skills','what it can do','Actions it can take, on top of what it knows. The base loadout — surfaces can narrow it.',`${a.skills.length} enabled`, skillsBody(a))}
+        ${section('surfaces',4,'Surfaces','where it lives','The same assistant across your product — each place can narrow which skills fire.',`Live on ${liveN}`, surfacesBody(a))}
+        ${section('boundaries',5,'Boundaries','set by admin','Guardrails and runtime, managed by your workspace admin — you build within them.','Admin-managed', boundariesBody(a))}
+      </div>
+      <aside class="loadout">${previewWidget(a)}</aside>
+    </div>`;
+}
+
+// Collapsible section wrapper. Clicking the header toggles it; the summary shows only when collapsed.
+function section(key,no,title,note,sub,summary,body){
+  const collapsed=collapsedSections.has(key);
+  return `<div class="panel sec ${collapsed?'collapsed':''}">
+    <div class="secthead" onclick="toggleSection('${key}')" role="button" tabindex="0" aria-expanded="${!collapsed}">
+      <span class="secno">${no}</span>
+      <div class="grow"><h2 style="margin:0">${title}${note?` <span class="secnote">${note}</span>`:''}</h2>${sub?`<p class="secsub">${sub}</p>`:''}</div>
+      <span class="sec-sum">${summary||''}</span>
+      <span class="sec-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 8.5l7 7 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </div>
+    <div class="sec-body">${body}</div>
+  </div>`;
+}
+
+function identityBody(a){
+  const tones=[['concise','Concise'],['friendly','Friendly'],['formal','Formal'],['playful','Playful']];
+  return `<div class="ab-field"><label>Name</label>
+      <input value="${esc(a.name)}" placeholder="e.g. Kai" maxlength="40" oninput="setA('name',this.value);syncPreview()"></div>
+    <div class="ab-field"><label>Role <span class="lblhint">— one line</span></label>
+      <input value="${esc(a.role||'')}" placeholder="e.g. The in-product assistant for your team." maxlength="90" oninput="setA('role',this.value);syncPreview()"></div>
+    <div class="ab-field"><label>Tone</label>
+      <div class="chips">${tones.map(t=>`<span class="chip ${a.tone===t[0]?'on':''}" onclick="setTone('${t[0]}')">${t[1]}</span>`).join('')}</div></div>
+    <div class="ab-field" style="margin-bottom:0"><label>Greeting</label>
+      <textarea rows="2" placeholder="Hi, I'm …" oninput="setA('greeting',this.value);syncPreview()">${esc(a.greeting||'')}</textarea></div>`;
+}
+
+function knowledgeBody(a){
+  const rows=KNOWLEDGE.map(k=>{
+    const on=a.knowledge.has(k.id);
+    return `<div class="skillrow">
+      <div class="sr-body">
+        <div class="sr-name">${esc(k.name)} <span class="tag ${k.type}" style="margin-left:4px">${k.type==='data'?'Data':'Memory'}</span></div>
+        <div class="sr-desc">${esc(k.desc)}</div>
+      </div>
+      <button class="eq-btn ${on?'on':''}" onclick="toggleKnowledge('${k.id}')">${on?'✓ Grounded':'+ Ground'}</button>
+    </div>`;
+  }).join('');
+  return `<div class="infonote" style="margin:0 0 10px">Drawn from what Agnes already holds. Add more from the <a style="color:var(--primary-2);cursor:pointer" onclick="go('browse')">Catalog</a>.</div>
+    ${rows||'<p class="muted" style="font-size:13.5px">No knowledge available yet.</p>'}`;
+}
+
+function skillsBody(a){
+  const groups={};
+  SKILLS.forEach(s=>{ (groups[s.pluginId]=groups[s.pluginId]||{name:s.pluginName,items:[]}).items.push(s); });
+  const groupHtml=Object.values(groups).map(g=>{
+    const rows=g.items.map(s=>{
+      const on=a.skills.includes(s.key);
+      return `<div class="skillrow">
+        <div class="sr-body"><div class="sr-name">${esc(s.name)}</div><div class="sr-desc">${esc(s.desc)}</div><code class="invoke">${esc(s.invoke)}</code></div>
+        <button class="eq-btn ${on?'on':''}" onclick="toggleBaseSkill('${s.key}')">${on?'✓ Enabled':'+ Enable'}</button>
+      </div>`;
+    }).join('');
+    const en=g.items.filter(s=>a.skills.includes(s.key)).length;
+    return `<div class="skillgroup"><div class="sg-hd"><span class="tag plugin">${esc(g.name)}</span><span class="sg-count">${en} of ${g.items.length} enabled</span></div>${rows}</div>`;
+  }).join('');
+  return groupHtml||'<p class="muted" style="font-size:13.5px">No skills available yet.</p>';
+}
+
+function surfacesBody(a){
+  return SURFACE_DEFS.map(def=>{
+    const su=a.surfaces.find(s=>s.id===def.id);
+    const isBase=def.id==='global';
+    const eff=effectiveSurfaceSkills(a,su);
+    let controls='';
+    if(su.enabled){
+      if(isBase){
+        controls=`<div class="surf-scope"><span class="muted">Runs with all ${a.skills.length} enabled skill${a.skills.length===1?'':'s'}.</span></div>`;
+      } else {
+        controls=`<div class="surf-scope">
+          <span class="seg ${su.scope==='all'?'on':''}" onclick="setSurfaceScope('${su.id}','all')">Inherit all</span>
+          <span class="seg ${su.scope==='custom'?'on':''}" onclick="setSurfaceScope('${su.id}','custom')">Custom</span>
+          <span class="muted" style="margin-left:6px">${eff.length} skill${eff.length===1?'':'s'} active here</span>
+        </div>
+        ${su.scope==='custom' ? `<div class="chips" style="margin:8px 0 0 52px">${a.skills.map(k=>{const s=SKILL_BY_KEY[k];const on=su.skills.includes(k);return s?`<span class="chip ${on?'on':''}" onclick="toggleSurfaceSkill('${su.id}','${k}')">${esc(s.name)}</span>`:''}).join('')||'<span class="muted">Enable base skills first.</span>'}</div>`:''}`;
+      }
+    }
+    return `<div class="surfrow ${su.enabled?'':'off'}">
+      <div class="surf-top">
+        <label class="switch"><input type="checkbox" ${su.enabled?'checked':''} ${isBase?'disabled':''} onchange="toggleSurface('${su.id}')"><span class="track"></span></label>
+        <div class="grow"><div class="sr-name">${esc(def.name)}${isBase?' <span class="tag status">base</span>':''}</div><div class="sr-desc">${esc(def.hint)}</div></div>
+      </div>
+      ${controls}
+    </div>`;
+  }).join('');
+}
+
+function boundariesBody(a){
+  return `<div class="bnd">
+      <div class="bnd-row"><span class="bnd-k">Model</span><span class="bnd-v">${esc(a.model)}</span></div>
+      <div class="bnd-row"><span class="bnd-k">Monthly messages / user</span><span class="bnd-v">${a.limit.toLocaleString()}</span></div>
+      <div class="bnd-row"><span class="bnd-k">Data access</span><span class="bnd-v">Scoped to each user's permissions</span></div>
+      <div class="bnd-row"><span class="bnd-k">Sensitive actions</span><span class="bnd-v">Require confirmation</span></div>
+    </div>
+    <div class="infonote" style="margin:12px 0 0">Inherited from the workspace. Ask an admin to change a boundary.</div>`;
+}
+
+// The payoff: a live mockup of the embedded assistant. syncPreview() keeps the header/greeting
+// in step while you type, without a full re-render (which would drop input focus).
+function previewWidget(a){
+  const skillChips=a.skills.slice(0,4).map(k=>{const s=SKILL_BY_KEY[k];return s?`<span class="tag comp">${esc(s.name)}</span>`:''}).join('');
+  const moreS=a.skills.length>4?`<span class="tag comp">+${a.skills.length-4}</span>`:'';
+  const liveN=a.surfaces.filter(s=>s.enabled).length;
+  const kn=a.knowledge.size;
+  return `
+    <h3 style="margin:0 0 10px">Preview</h3>
+    <div class="kai-card ${a.live?'':'draft'}">
+      <div class="kai-hd">
+        <div class="kai-ava">${AGENT_ICON}</div>
+        <div style="min-width:0"><div class="kai-name">${esc(a.name)||'Assistant'}</div><div class="kai-role">${esc(a.role)||'—'}</div></div>
+        <span class="kai-dot ${a.live?'on':''}" title="${a.live?'Live':'Draft'}"></span>
+      </div>
+      <div class="kai-body">
+        <div class="kai-bubble">${esc(a.greeting)||'…'}</div>
+        <div class="kai-input"><span class="kai-ph">Ask ${esc(a.name)||'the assistant'}…</span><span class="kai-send">↑</span></div>
+      </div>
+    </div>
+    <div class="pv-meta">
+      <div class="pv-row"><span class="pv-k">Grounded in</span><span class="pv-v">${kn} knowledge source${kn===1?'':'s'}</span></div>
+      <div class="pv-row"><span class="pv-k">Can do</span><span class="pv-v">${a.skills.length} skill${a.skills.length===1?'':'s'}</span></div>
+      <div class="pv-row"><span class="pv-k">Tone</span><span class="pv-v" style="text-transform:capitalize">${esc(a.tone)}</span></div>
+      <div class="pv-row"><span class="pv-k">Live on</span><span class="pv-v">${liveN} surface${liveN===1?'':'s'}</span></div>
+    </div>
+    ${skillChips?`<div class="chips" style="margin-top:12px">${skillChips}${moreS}</div>`:''}
+    <div class="lo-run"><b>${a.live?'Live now.':'Not live yet.'}</b> ${a.live?`${esc(a.name)||'Your assistant'} is embedded in your product on ${liveN} surface${liveN===1?'':'s'}, grounded in your company knowledge.`:'Flip it to Live to embed it in your product.'}</div>
+  `;
+}
+
+function syncPreview(){
+  const a=currentAgent(); if(!a) return;
+  const nm=document.querySelector('.kai-name'); if(nm) nm.textContent=a.name||'Assistant';
+  const rl=document.querySelector('.kai-role'); if(rl) rl.textContent=a.role||'—';
+  const gb=document.querySelector('.kai-bubble'); if(gb) gb.textContent=a.greeting||'…';
+  const ph=document.querySelector('.kai-ph'); if(ph) ph.textContent=`Ask ${a.name||'the assistant'}…`;
+  const h1=document.querySelector('.build-h1'); if(h1) h1.textContent=a.name||'Untitled';
+}
+
+const AGENT_ICON = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 4.2v3.8M8.5 20v1.5M15.5 20v1.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9.3" cy="13.5" r="1.1" fill="currentColor"/><circle cx="14.7" cy="13.5" r="1.1" fill="currentColor"/></svg>`;
+
+// ── The Agnes brand orb — one polished SVG, reused everywhere (rail logo, landing hero, tour
+//    avatar, connectors banner). Matches the brand mark: a glassy sphere reading green (top-left)
+//    → deep navy (mid) → violet (bottom-right), with flowing wave bands and constellation dots.
+//    `p` prefixes the gradient/clip ids so multiple orbs can coexist without id collisions. ──
+// Uses the real brand artwork (assets/agnes-orb.png — transparent, tightly cropped). If the file
+// is ever missing, falls back to the hand-built vector orb below so nothing renders empty.
+function AGNES_ORB(p){return `<img src="assets/agnes-orb.png" alt="" style="width:100%;height:100%;object-fit:contain;display:block" onerror="this.outerHTML=AGNES_ORB_SVG('${p}')">`;}
+function AGNES_ORB_SVG(p){return `<svg viewBox="0 0 64 64" fill="none" style="width:100%;height:100%;display:block" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="${p}g" x1="14" y1="10" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4ff0bf"/><stop offset=".33" stop-color="#17b6a2"/>
+      <stop offset=".62" stop-color="#243b8f"/><stop offset="1" stop-color="#7d5cff"/>
+    </linearGradient>
+    <radialGradient id="${p}s" cx="24" cy="18" r="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset=".5" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="${p}v" cx="32" cy="32" r="30" gradientUnits="userSpaceOnUse">
+      <stop offset=".68" stop-color="#0b1220" stop-opacity="0"/><stop offset="1" stop-color="#0b1220" stop-opacity=".3"/>
+    </radialGradient>
+    <clipPath id="${p}c"><circle cx="32" cy="32" r="30"/></clipPath>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#${p}g)"/>
+  <g clip-path="url(#${p}c)">
+    <path d="M-4 34 C 14 24, 26 40, 40 32 S 60 26, 70 34 L 70 70 L -4 70 Z" fill="#0e1b3f" opacity=".55"/>
+    <path d="M-4 42 C 16 33, 28 47, 44 40 S 62 36, 70 42 L 70 70 L -4 70 Z" fill="#0b1220" opacity=".45"/>
+    <path d="M-4 33 C 14 23, 26 39, 40 31 S 60 25, 70 33" stroke="#eafff6" stroke-opacity=".45" stroke-width="1.3" fill="none"/>
+    <path d="M-4 44 C 16 35, 30 49, 46 42 S 62 38, 70 44" stroke="#d9ccff" stroke-opacity=".4" stroke-width="1.1" fill="none"/>
+    <path d="M16 22 L 26 18 L 36 24 L 46 20" stroke="#fff" stroke-opacity=".5" stroke-width=".8" fill="none"/>
+    <circle cx="16" cy="22" r="1.5" fill="#fff"/><circle cx="26" cy="18" r="1.9" fill="#fff"/><circle cx="36" cy="24" r="1.5" fill="#eafff6"/><circle cx="46" cy="20" r="1.3" fill="#fff"/>
+    <path d="M24 46 L 34 50 L 44 45" stroke="#fff" stroke-opacity=".45" stroke-width=".8" fill="none"/>
+    <circle cx="24" cy="46" r="1.4" fill="#f2ecff"/><circle cx="34" cy="50" r="1.7" fill="#fff"/><circle cx="44" cy="45" r="1.3" fill="#fff"/>
+    <circle cx="40" cy="14" r=".7" fill="#fff" opacity=".8"/><circle cx="20" cy="34" r=".6" fill="#fff" opacity=".7"/><circle cx="50" cy="38" r=".7" fill="#fff" opacity=".7"/><circle cx="30" cy="40" r=".5" fill="#fff" opacity=".6"/>
+    <ellipse cx="24" cy="19" rx="19" ry="13" fill="url(#${p}s)"/>
+    <circle cx="32" cy="32" r="30" fill="url(#${p}v)"/>
+  </g>
+  <circle cx="32" cy="32" r="30" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1"/>
+</svg>`}
+let orbSeq=0;
+function initOrbs(){ document.querySelectorAll('[data-orb]').forEach(el=>{ el.innerHTML=AGNES_ORB('orb'+(orbSeq++)); }); }
 
 function render(){
   // kind counts (respect other active facets except kind itself)
@@ -2408,26 +2884,7 @@ function renderStackKnowledge(by){
 function renderStackClients(){
   const el=document.getElementById('stack-clients');
   if(!el) return;
-  const orb=`<svg viewBox="0 0 32 32" aria-hidden="true">
-      <defs>
-        <linearGradient id="anyOrbGrad" x1="6" y1="4" x2="26" y2="28" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stop-color="#7ff0c8"/><stop offset=".46" stop-color="#33c1a8"/><stop offset="1" stop-color="#6d28d9"/>
-        </linearGradient>
-        <radialGradient id="anyOrbSheen" cx="11" cy="9" r="15" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
-        </radialGradient>
-        <clipPath id="anyOrbClip"><circle cx="16" cy="16" r="14"/></clipPath>
-      </defs>
-      <circle cx="16" cy="16" r="14" fill="url(#anyOrbGrad)"/>
-      <g clip-path="url(#anyOrbClip)">
-        <path d="M0 19 C 8 14, 12 22, 18 18 S 28 15, 34 20 L 34 34 L 0 34 Z" fill="#fff" opacity=".16"/>
-        <path d="M0 22.5 C 9 17.5, 13 25, 20 21 S 30 19.5, 34 23.5" stroke="#fff" stroke-opacity=".38" stroke-width="1" fill="none"/>
-        <path d="M9 12 L 15 9.6 L 21 13.6" stroke="#fff" stroke-opacity=".5" stroke-width=".6" fill="none"/>
-        <circle cx="9" cy="12" r="1" fill="#fff"/><circle cx="15" cy="9.6" r="1.15" fill="#fff"/><circle cx="21" cy="13.6" r="1" fill="#eaf7ff"/>
-        <ellipse cx="12" cy="10" rx="9.5" ry="7" fill="url(#anyOrbSheen)"/>
-      </g>
-      <circle cx="16" cy="16" r="14" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="1"/>
-    </svg>`;
+  const orb=AGNES_ORB('any');
   el.innerHTML=`<div class="anywhere-line">
     <div class="anywhere-main">
       <div class="anywhere-head">
@@ -2957,6 +3414,7 @@ function toggle(id){
 let lastList='stack';
 function go(id){
   if(id==='browse'||id==='stack'||id==='chat') lastList=id;
+  if(id==='agents') renderAgents();
   if(id!=='stack' && stackTourActive && !stackTourNavigating) endStackTour(false);
   document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
   setRailActive(id);   // 'detail' won't match a rail item → nothing highlighted, which is fine
@@ -4046,6 +4504,7 @@ window.addEventListener('keydown',e=>{ if(e.key==='Escape'&&stackTourActive) end
 
 const initialScenario=sessionStorage.getItem(SCENARIO_SESSION_KEY)||'ready';
 appState.selectedScenario=Object.prototype.hasOwnProperty.call(SCENARIOS,initialScenario)?initialScenario:'ready';
+initOrbs();
 applyScenario(appState.selectedScenario,false);
 renderScenarioSwitcher();
 document.body.classList.toggle('chat-scroll-locked', document.getElementById('chat')?.classList.contains('active'));
