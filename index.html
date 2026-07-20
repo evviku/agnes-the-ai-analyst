@@ -472,19 +472,66 @@
   .back:hover{color:var(--text)}
   .crumb{font-size:12.5px;color:var(--dim);margin-bottom:14px}
   .crumb a{color:var(--muted);cursor:pointer} .crumb a:hover{color:var(--text)}
-  .dhero{display:flex;gap:18px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);
-    border-radius:12px;padding:22px 24px;margin-bottom:20px}
-  .dglyph{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;font-size:26px;flex-shrink:0}
-  .dhero .body{flex:1;min-width:0}
-  .dhero h1{font-size:24px;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  /* ── Shared detail-page header ── one reusable pattern for every asset type (data, plugin,
+     memory, upload, recipe). A calm two-zone card: identity + metadata + actions on the left,
+     a soft accent gradient + subtle dotted "connected-data" pattern washing across the right.
+     Accent color comes from the asset type's own token (--accent set inline). Product UI, not a
+     marketing banner: 1px border, restrained radius, hover shadow only, pattern always subtle. */
+  .dhero{position:relative;overflow:hidden;display:flex;gap:20px;align-items:stretch;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px 26px;margin-bottom:20px;transition:box-shadow var(--motion-med) var(--ease-standard)}
+  .dhero:hover{box-shadow:var(--shadow-sm)}
+  /* decorative layer 1 — gradient wash, top-right, fades to the clean surface */
+  .dhero::before{content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(130% 130% at 100% -12%, var(--accent-soft, var(--bg-2)), transparent 58%)}
+  /* decorative layer 2 — dotted pattern confined to the right, masked so it never touches text */
+  .dhero::after{content:'';position:absolute;top:0;right:0;bottom:0;width:46%;pointer-events:none;
+    background-image:radial-gradient(var(--accent, var(--line-2)) 1px, transparent 1.5px);
+    background-size:15px 15px;opacity:.14;
+    -webkit-mask-image:linear-gradient(to left, #000 8%, transparent 82%);
+            mask-image:linear-gradient(to left, #000 8%, transparent 82%)}
+  .dhero>*{position:relative;z-index:1}
+  .dglyph{width:56px;height:56px;border-radius:var(--radius);display:grid;place-items:center;font-size:26px;flex-shrink:0}
+  .dhero .body{flex:1;min-width:0;display:flex;flex-direction:column}
+  .dhero h1{font-size:24px;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0}
   .dhero .idchip{font-family:ui-monospace,monospace;font-size:12px;color:var(--dim);
-    background:var(--bg-2);border:1px solid var(--line);padding:2px 8px;border-radius:var(--radius-input);font-weight:400}
-  .dhero .desc{color:var(--muted);font-size:15px;margin:0 0 12px;max-width:70ch}
-  .dhero .metaline{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12.5px;color:var(--muted);margin-bottom:14px}
-  .dhero .metaline b{color:var(--text)}
-  .dhero .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    background:var(--bg-2);border:1px solid var(--line);padding:2px 8px;border-radius:var(--radius-input);
+    font-weight:400;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dhero .desc{color:var(--muted);font-size:15px;margin:0 0 14px;max-width:64ch}
+  /* one calm metadata row: state/categorical badges, then plain text (owner · scale) with dots */
+  .dhero .metaline{display:flex;flex-wrap:wrap;gap:8px 12px;font-size:12.5px;color:var(--muted);
+    align-items:center;margin-bottom:12px}
+  .dhero .metaline b{color:var(--text);font-weight:600}
+  .dhero .metaline .mtext{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .dhero .metaline .dot{color:var(--line-2);margin:0 1px}
+  .dhero .htags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .dhero .htags .chip{background:transparent;border-color:var(--line);color:var(--dim);font-weight:500}
+  .tag.opt{background:var(--bg-2);border:1px solid var(--line);color:var(--dim)}
+  /* footer of the header: contextual note on the left, aligned action buttons on the right */
+  .dh-foot{margin-top:auto;padding-top:16px;display:flex;align-items:center;justify-content:space-between;
+    gap:16px;flex-wrap:wrap}
+  .dh-note{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--dim);max-width:52ch}
+  .dh-note .ni{opacity:.8;flex-shrink:0}
+  .dhero .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-left:auto}
+  .btn.agnesbtn{border-color:var(--agnes-line);color:var(--agnes);background:var(--agnes-soft)}
+  .btn.agnesbtn:hover{background:var(--agnes);border-color:var(--agnes);color:var(--primary-ink)}
+  .btn .bi{margin-right:2px}
+  /* query/command block, pulled out below the hero rather than crowding the identity zone */
+  .runcard{display:flex;align-items:center;gap:16px;background:var(--panel);border:1px solid var(--line);
+    border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
+  .runcard .rc-lbl{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);
+    font-weight:500;flex-shrink:0}
+  .runcard .codebox{flex:1;margin:0}
   .runcmd{margin-top:14px}
   .runcmd .lbl{font-size:12px;color:var(--dim);margin-bottom:5px}
+  @media(max-width:760px){
+    .dhero{flex-direction:column;gap:14px}
+    .dhero::after{width:100%;opacity:.08}
+    .dh-foot{flex-direction:column;align-items:flex-start;gap:12px}
+    .dhero .actions{margin-left:0;width:100%}
+    .dhero .actions .btn{flex:1;justify-content:center}
+    .runcard{flex-direction:column;align-items:stretch;gap:10px}
+  }
   .cols{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;align-items:start}
   .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:18px}
   .panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 12px}
@@ -519,6 +566,62 @@
   .invoke{font-family:ui-monospace,monospace;font-size:12px;color:var(--library);
     background:var(--library-soft);border:1px solid #c7dbef;border-radius:var(--radius-input);padding:2px 8px;display:inline-block}
   .comp .ct.agent~.cbody .invoke{color:var(--plugin);background:var(--plugin-soft);border-color:#e0d3ee}
+
+  /* ── Plugin detail body — decision-first IA below the shared header: what you get → required
+     data → capabilities → example prompts → documentation, with metadata in the sidebar.
+     Reuses existing tokens/components; adds only the classes this layout needs. ── */
+  /* "What you get" — the value section directly under the hero */
+  .valuepanel{background:linear-gradient(180deg,var(--primary-soft),var(--panel) 82%);border-color:var(--primary-line)}
+  .valuelede{font-size:14.5px;font-weight:600;color:var(--primary-subtle-fg);margin:0 0 14px}
+  .gainlist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:11px 24px}
+  .gainlist li{display:flex;gap:10px;font-size:14px;line-height:1.45;align-items:flex-start}
+  .gainlist .ck{color:var(--success);font-weight:800;flex-shrink:0}
+  @media(max-width:720px){.gainlist{grid-template-columns:1fr}}
+  /* Required data rows — status + inline add, the key pre-add check */
+  .reqrow{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--line);cursor:pointer}
+  .reqrow:last-child{border-bottom:none}
+  .reqrow .grow{flex:1;min-width:0}
+  .reqrow .rn{font-weight:600;font-size:14px}
+  .reqrow .rd{font-size:12.5px;color:var(--muted);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .reqstat{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;flex-shrink:0}
+  .reqstat.ok{color:var(--success)}
+  .reqstat.missing{color:var(--amber)}
+  .reqadd{border:1px solid var(--primary);background:transparent;color:var(--primary);
+    padding:6px 13px;border-radius:var(--radius-input);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;flex-shrink:0}
+  .reqadd:hover{background:var(--primary);color:var(--primary-ink)}
+  .reqlocked{font-size:12px;color:var(--amber);font-weight:600;flex-shrink:0}
+  /* Capability cards */
+  .capcards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:720px){.capcards{grid-template-columns:1fr}}
+  .capcard{border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+  .caphead{display:flex;align-items:center;gap:9px}
+  .capname{font-weight:600;font-size:14px}
+  .capdesc{font-size:13px;color:var(--muted);line-height:1.5;margin:0}
+  .caprow{display:flex;flex-direction:column;gap:4px;margin-top:2px}
+  .caplbl{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--dim)}
+  .capprod{font-size:12.5px;color:var(--text);line-height:1.45}
+  .capprod .pk{color:var(--success);font-weight:700;margin-right:5px}
+  /* Example prompts — clickable suggestions that jump into Agnes */
+  .promptgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:720px){.promptgrid{grid-template-columns:1fr}}
+  .promptcard{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;
+    border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:12px 14px;
+    font:inherit;font-size:13.5px;color:var(--text);cursor:pointer;transition:.14s}
+  .promptcard:hover{border-color:var(--primary-line);background:var(--primary-soft)}
+  .promptcard .pq{line-height:1.4}
+  .promptcard .parrow{color:var(--dim);font-size:15px;flex-shrink:0;transition:.14s}
+  .promptcard:hover .parrow{color:var(--primary);transform:translateX(2px)}
+  /* Documentation — collapsed by default, kept low on the page */
+  .docblock{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin-bottom:18px;overflow:hidden}
+  .docblock>summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .docblock>summary::-webkit-details-marker{display:none}
+  .docblock>summary .chev{font-size:12px;color:var(--dim);transition:transform .18s}
+  .docblock[open]>summary .chev{transform:rotate(90deg)}
+  .docblock .docbody{padding:0 20px 18px}
+  .docblock .docbody p{margin:0 0 10px;font-size:14px;line-height:1.65;color:var(--muted)}
+  .docblock .docbody p:last-child{margin-bottom:0}
+  .secsub{font-size:13px;color:var(--muted);margin:-4px 0 14px;line-height:1.55}
 
   /* ── Agents (the AI harness): compose a focused agent from skills in the collection.
      Uses the dedicated --agnes accent throughout, so "an agent you built" reads as its own
@@ -693,8 +796,8 @@
   .land-source-pill{font-size:12.5px;color:var(--land-muted);padding:0 2px 8px;width:min(100%,780px);margin:6px auto 0}
   .land-suggest-label{font-size:12.5px;font-weight:600;color:var(--land-muted);margin:6px 2px 8px}
   .land-suggestions{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-  .land-suggestion{border:1px solid var(--land-border);background:#fff;padding:12px 13px;border-radius:12px;
-    text-align:left;color:#3f4b43;font-size:13px;line-height:1.4;cursor:pointer}
+  .land-suggestion{border:1px solid var(--land-border);background:#fff;padding:9px 12px;border-radius:10px;
+    text-align:left;color:#3f4b43;font-size:12px;line-height:1.4;cursor:pointer}
   .land-suggestion:hover{border-color:#34d399;background:#ecfdf5}
   /* "Same knowledge everywhere" banner on the landing hero */
   .land-anywhere{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:16px;
@@ -710,10 +813,21 @@
   .land-anywhere .la-tool img{width:26px;height:26px;object-fit:contain;
     border:1px solid var(--land-border);border-radius:10px;padding:6px;background:#fff;box-sizing:content-box}
   .land-anywhere .la-tool em{font-style:normal;font-size:11px;color:var(--land-muted)}
+  /* CLI has no icon file — a small terminal glyph rendered in the same 26px tile as the tool icons */
+  .land-anywhere .la-tool-cli{width:26px;height:26px;box-sizing:content-box;border:1px solid var(--land-border);
+    border-radius:10px;padding:6px;background:#fff;color:var(--land-text);display:grid;place-items:center}
+  .land-anywhere .la-tool-cli svg{width:18px;height:18px}
   .land-anywhere .la-cta{flex-shrink:0;border:none;cursor:pointer;background:var(--land-green);color:#fff;
     border-radius:999px;padding:11px 20px;font-size:14px;font-weight:650;letter-spacing:-.01em;
     box-shadow:0 4px 12px rgba(16,185,129,.25);transition:background .15s}
   .land-anywhere .la-cta:hover{background:var(--land-green-dark)}
+  /* "Powered by Keboola" — a quiet brand-attribution footer; low weight so it never competes */
+  .land-poweredby{display:flex;align-items:center;justify-content:center;gap:8px;
+    margin:26px auto 4px;padding-top:18px;border-top:1px solid var(--land-border);
+    width:min(100%,780px);color:var(--land-muted);font-size:12px}
+  .land-poweredby .pb-logo{height:16px;width:auto;object-fit:contain;opacity:.85}
+  .land-poweredby .pb-txt{opacity:.9}
+  .land-poweredby .pb-txt b{color:var(--land-text);font-weight:650}
   @media(max-width:860px){.land-h1{font-size:26px}.land-anywhere{flex-direction:column;align-items:stretch}.land-anywhere .la-cta{width:100%}}
   /* stack-aware chat page */
   .chatpage{background:var(--panel);border:1px solid var(--line);border-radius:12px;
@@ -891,7 +1005,7 @@
   #chat-thread-view[data-history-open="true"] .chat-thread-main{padding:18px 18px 18px 0}
   .chat-landing-main .chatpage,.chat-thread-main .chatpage{flex:1;height:100%;background:var(--panel);border:none;border-radius:0;box-shadow:none;overflow:hidden;
     transition:border-radius 220ms var(--ease-standard),border-color 220ms var(--ease-standard),box-shadow 220ms var(--ease-standard)}
-  .chat-landing-main .chatpage{overflow-y:auto;display:flex;align-items:center;justify-content:center;padding:24px 0}
+  .chat-landing-main .chatpage{overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:24px 0}
   #chat-landing[data-history-open="true"] .chat-landing-main .chatpage,
   #chat-thread-view[data-history-open="true"] .chat-thread-main .chatpage{border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 26px rgba(17,24,39,.08)}
   .chat-landing-main .land-hero,
@@ -906,7 +1020,12 @@
   .chat-thread-main .chat-suggest{padding:0 24px 10px}
   .chat-thread-main .chat-input{padding:0 24px 12px}
   .chat-thread-main #chat-source-pill{padding:0 24px 12px!important}
-  .chat-landing-main .land-hero{flex:none;width:min(100%,920px);padding:36px 20px 24px;border:none;box-shadow:none;background:transparent;border-radius:0}
+  .chat-landing-main .land-hero{flex:1 0 auto;display:flex;flex-direction:column;width:min(100%,920px);padding:36px 20px 24px;border:none;box-shadow:none;background:transparent;border-radius:0}
+  /* land-top holds the ask experience (centered in the free space); land-bottom pins the
+     "everywhere" banner + "Powered by Keboola" to the bottom of the page for a cleaner scan. */
+  .land-top{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
+  .land-bottom{flex:none;margin-top:28px}
+  .land-bottom .land-anywhere{margin-top:0}
   .chat-ready-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;
     background:var(--land-green-soft);color:var(--land-green-dark);font-size:13px;font-weight:650}
   .chat-landing-main .chatpage .chat-ready-badge,
@@ -1380,6 +1499,7 @@
                   </button>
                 </div>
                 <div class="land-hero">
+                <div class="land-top">
                 <div class="land-hero-brand">
                   <span class="land-orb" data-orb aria-hidden="true"></span>
                   <h1 class="land-h1">Ask anything.<br>Reuse <span class="lh-accent">everything.</span></h1>
@@ -1394,21 +1514,30 @@
 
                 <div class="land-suggest-label">Suggested questions</div>
                 <div class="land-suggestions" id="land-suggestions"></div>
+                </div>
 
+                <div class="land-bottom">
                 <div class="land-anywhere">
                   <div class="la-lead">
                     <span class="la-chk"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                     <div>
-                      <b>Same knowledge and skills, everywhere</b>
-                      <span>Connect once — your company's answers and reusable skills, right inside Claude Code, Cursor, and VS Code.</span>
+                      <b>The same knowledge, everywhere.</b>
+                      <span>Kai already uses your Stack in Agnes. Connect your AI tools to give them access to the same knowledge.</span>
                     </div>
                   </div>
-                  <div class="la-tools" aria-label="Supported tools">
+                  <div class="la-tools" aria-label="Where Kai runs">
                     <span class="la-tool" title="Claude Code"><img src="assets/icons/claude-code.ico" alt="Claude Code"><em>Claude Code</em></span>
                     <span class="la-tool" title="Cursor"><img src="assets/icons/cursor.ico" alt="Cursor"><em>Cursor</em></span>
                     <span class="la-tool" title="VS Code"><img src="assets/icons/vscode.ico" alt="VS Code"><em>VS Code</em></span>
+                    <span class="la-tool" title="Command line (agnes CLI)"><span class="la-tool-cli" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 8l4 4-4 4M12 16h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><em>CLI</em></span>
                   </div>
                   <button class="la-cta" onclick="showConnectFlow()">Connect once →</button>
+                </div>
+
+                <div class="land-poweredby">
+                  <img src="assets/keboola-logo.svg" alt="" class="pb-logo" onerror="this.remove()">
+                  <span class="pb-txt">Powered by <b>Keboola</b></span>
+                </div>
                 </div>
                 </div>
               </div>
@@ -1592,60 +1721,79 @@ const CATALOG = [
    desc:'Query the company\'s data in plain language — governed BigQuery and Tableau access.', meta:'2 skills · 1 agent',
   worksWith:['transactional_core','web_traffic','customer_segments','finance_common','salesforce_crm'],
    d:{marketplace:'Ask Data Marketplace',curator:'Divanshu Kapoor',author:'Divanshu Kapoor',version:'v0.2.0',reviewed:true,
+      updated:'5 days ago',size:'3.4 MB',
       about:['A plugin bundle that lets your agent answer data questions in plain language, translating them into governed queries against BigQuery and Tableau. Guardrails and row limits are enforced server-side.',
              'Adding the plugin to your stack installs everything it contains — the skills and agent below become available together.'],
+      gains:['Answer data questions in plain language','Pull a live metric without opening Tableau','Explore a table\'s shape before writing SQL','Run governed queries with row limits enforced'],
       use:['"What was CZ revenue last week?" — answered from live data','Pull a Tableau metric without opening Tableau','Explore a table\'s shape before writing SQL'],
+      prompts:['What was CZ revenue last week?','Top 10 products by refund rate this quarter','Explore the transactional_core table','Plan a cohort analysis across orders and customers'],
       components:[
-        ['skill','Natural-language query','Turns a plain-language question into governed SQL.','/ask-data:query <your question>'],
-        ['skill','Table explorer','Summarises a table\'s columns and shape before you query.','/ask-data:explore <table>'],
-        ['agent','Query planner','Plans multi-step analyses across several tables.','@ask-data:planner']]}},
+        ['skill','Natural-language query','Turns a plain-language question into governed SQL.','/ask-data:query <your question>','A result table from a safe, governed SQL query'],
+        ['skill','Table explorer','Summarises a table\'s columns and shape before you query.','/ask-data:explore <table>','A column-by-column summary of the table'],
+        ['agent','Query planner','Plans multi-step analyses across several tables.','@ask-data:planner','A step-by-step analysis plan across multiple tables']]}},
   {id:'eng_intel', type:'plugin', source:'curated', category:'DevOps & Infra', tags:['jira','incidents','pagerduty','linear'],
    name:'Engineering Intelligence', team:'Engineering', status:'Prod-ready',
    desc:'Operational toolkit — Jira, incidents, alerts, and health — for the engineering agent.', meta:'3 skills · 1 agent',
    d:{marketplace:'Engineering Intelligence Marketplace',curator:'David Rybar',author:'David Rybar',version:'v1.15.66',reviewed:true,
+      updated:'1 month ago',size:'5.8 MB',
       about:['A bundle of operational tools — Jira issues, incident timelines, alert history, and service health — plus the workflows to use them, exposed to your agent.'],
+      gains:['Summarise incidents and their follow-ups','Find and file Jira and Linear issues','Build a cycle status report from Linear','Investigate a failed job across services'],
       use:['Summarise the last incident and its follow-ups','Find open Jira issues for a service','Check who is on-call'],
+      prompts:['Summarise the last production incident','Find open Jira issues for the billing service','Draft this cycle\'s status report','Who is on-call right now?'],
       components:[
-        ['skill','Create post-mortem','Drafts an incident post-mortem from a Slack channel.','/eng-intel:postmortem'],
-        ['skill','Weekly status report','Builds a cycle status update from Linear.','/eng-intel:status'],
-        ['skill','File Linear issue','Creates issues, sub-issues, and projects from a prompt.','/eng-intel:file-linear'],
-        ['agent','Platform debugger','Investigates a failed job across services and logs.','@eng-intel:debug']]}},
+        ['skill','Create post-mortem','Drafts an incident post-mortem from a Slack channel.','/eng-intel:postmortem','A drafted post-mortem document'],
+        ['skill','Weekly status report','Builds a cycle status update from Linear.','/eng-intel:status','A cycle status update ready to share'],
+        ['skill','File Linear issue','Creates issues, sub-issues, and projects from a prompt.','/eng-intel:file-linear','New Linear issues, sub-issues, or projects'],
+        ['agent','Platform debugger','Investigates a failed job across services and logs.','@eng-intel:debug','A root-cause investigation across services and logs']]}},
   {id:'ab_experiments', type:'plugin', source:'curated', category:'Productivity', tags:['statsig','experiments'],
    name:'A/B Experiments', team:'Product', status:'Prod-ready',
    desc:'Full experiment-lifecycle management for product experiments.', meta:'2 skills',
    worksWith:['web_traffic','customer_segments'],
    d:{marketplace:'Product Marketplace',curator:'Blanka Solinova',author:'Blanka Solinova',version:'v0.6.0',reviewed:true,
-      about:['End-to-end experiment lifecycle from your agent — design, launch, monitor, and read out A/B tests on Statsig.'],
+      updated:'2 weeks ago',size:'1.2 MB',
+      about:['End-to-end experiment lifecycle from your agent — design, launch, monitor, and read out A/B tests on Statsig.',
+             'Adding the plugin to your stack installs both skills below; they become available together and run against Statsig with your existing access.'],
+      gains:['Design a new experiment with the right sample size','Read out results and call statistical significance','Explain whether a metric moved by chance','Recommend ship, iterate, or roll back'],
       use:['Check whether an experiment has reached significance','Draft a readout from experiment results'],
+      prompts:['Read out the checkout-v2 experiment','Has pricing-test-3 reached significance yet?','Design an experiment for the new onboarding flow','Compare variant A vs variant B on conversion'],
       components:[
-        ['skill','Experiment readout','Summarises results and calls significance.','/ab:readout <experiment>'],
-        ['skill','Experiment design','Drafts a test plan with power analysis.','/ab:design']]}},
+        ['skill','Experiment readout','Summarises results and calls significance.','/ab:readout <experiment>','A significance verdict plus a plain-language results summary'],
+        ['skill','Experiment design','Drafts a test plan with power analysis.','/ab:design','A test plan with hypotheses, metrics, and required sample size']]}},
   {id:'janus_data', type:'plugin', source:'flea', category:'Data & Analytics', tags:['lineage','governance'],
    name:'Janus Data', team:'Data', status:'POC',
    desc:'Data-governance system from the agent — events, lineage, and ownership lookups.', meta:'1 skill · 1 agent',
    worksWith:['transactional_core','web_traffic'],
    d:{marketplace:'Flea Market',author:'Divanshu Kapoor',version:'v0.4.1',reviewed:false,installs:'2 installed',
+      updated:'3 months ago',size:'0.6 MB',
       about:['Community-uploaded governance lookups: table lineage, ownership, and event history, surfaced to your agent.',
              'This is a Flea Market plugin — shared by a colleague, not admin-curated. It has no formal review bar; check the author and description before adding.'],
+      gains:['Trace a column or table to its upstream source','Find the owning team for any data asset','Check event history before changing a table'],
       use:['Find who owns a table before changing it','Trace a column back to its source'],
+      prompts:['Who owns the transactional_core tables?','Trace the revenue column back to its source','What changed in web_traffic last week?'],
       components:[
-        ['skill','Lineage lookup','Traces a column or table to its upstream source.','/janus:lineage <table>'],
-        ['agent','Ownership resolver','Finds the owning team for any data asset.','@janus:owner']]}},
+        ['skill','Lineage lookup','Traces a column or table to its upstream source.','/janus:lineage <table>','A lineage trace from a column back to its origin'],
+        ['agent','Ownership resolver','Finds the owning team for any data asset.','@janus:owner','The owning team and contact for a data asset']]}},
   {id:'sheet_export', type:'plugin', source:'flea', category:'Productivity', tags:['sheets','export','reporting'],
    name:'Sheets Export', team:'Community', status:'POC',
    desc:'Push a query result straight into a shared Google Sheet — built by a colleague.', meta:'1 skill',
    worksWith:['transactional_core','customer_segments','finance_common'],
    d:{marketplace:'Flea Market',author:'Marek Novák',version:'v0.1.3',reviewed:false,installs:'6 installed',
+      updated:'6 weeks ago',size:'0.3 MB',
       about:['A Flea Market plugin: exports an agent query result into a Google Sheet you name. Handy for recurring shared reports.'],
+      gains:['Export a query result into a named Google Sheet','Keep a recurring shared report up to date'],
       use:['Drop a weekly number into a team sheet','Export a segment list for a campaign'],
-      components:[['skill','Export to Sheets','Writes a result set into a named Google Sheet.','/sheets:export <query>']]}},
+      prompts:['Export last week\'s revenue to the Weekly Numbers sheet','Push the high-value segment list to a new sheet'],
+      components:[['skill','Export to Sheets','Writes a result set into a named Google Sheet.','/sheets:export <query>','A populated Google Sheet you can share']]}},
   {id:'standup_bot', type:'plugin', source:'flea', category:'Communication', tags:['slack','standup'],
    name:'Standup Digest', team:'Community', status:'Draft',
    desc:'Summarises yesterday\'s activity into a Slack standup post. Community-built.', meta:'1 skill',
    d:{marketplace:'Flea Market',author:'Priya Shah',version:'v0.0.9',reviewed:false,installs:'1 installed',
+      updated:'2 months ago',size:'0.2 MB',
       about:['A Flea Market plugin that drafts a standup update from your recent commits, PRs, and issues.'],
+      gains:['Auto-draft your daily standup post','Summarise a teammate\'s week for a review'],
       use:['Auto-draft your daily standup','Summarise a teammate\'s week for a review'],
-      components:[['skill','Standup digest','Builds a standup summary from recent activity.','/standup:digest']]}},
+      prompts:['Draft my standup from yesterday\'s activity','Summarise what the team shipped this week'],
+      components:[['skill','Standup digest','Builds a standup summary from recent activity.','/standup:digest','A ready-to-post standup summary']]}},
 
   {id:'mem_data', type:'memory', category:'Data & Analytics', tags:['rules','playbooks'], name:'Data domain', team:'Data', status:'Prod-ready', required:true,
    desc:'Curated rules, playbooks, and decisions for the Data domain — 57 knowledge items.', meta:'57 items',
@@ -2544,17 +2692,19 @@ function renderLandingSuggestions(){
 }
 // "Using N knowledge sources · M skills" — a single lightweight, always-visible trust indicator
 // sitting right next to Send, instead of a separate architecture strip elsewhere on the page.
+// The pill names Kai as the assistant operating this chat, and ties everything to the Stack:
+// whatever you add to your Stack is what Kai draws on here (and everywhere else Kai runs).
 function renderLandingSourcePill(){
   const el=document.getElementById('land-source-pill'); if(!el) return;
   const {by}=stackChecks();
   const knowledgeN=by.data.length+by.memory.length+by.library.length;
-  el.textContent=`Using ${knowledgeN} knowledge source${knowledgeN===1?'':'s'} · ${by.plugin.length} capabilit${by.plugin.length===1?'y':'ies'}`;
+  el.innerHTML=`Operated by <b style="color:var(--land-green-dark)">Kai</b> · using ${knowledgeN} knowledge source${knowledgeN===1?'':'s'} · ${by.plugin.length} capabilit${by.plugin.length===1?'y':'ies'} from your Stack`;
 }
 function renderThreadSourcePill(){
   const el=document.getElementById('chat-source-pill'); if(!el) return;
   const {by}=stackChecks();
   const knowledgeN=by.data.length+by.memory.length+by.library.length;
-  el.textContent=`Using ${knowledgeN} knowledge source${knowledgeN===1?'':'s'} · ${by.plugin.length} capabilit${by.plugin.length===1?'y':'ies'}`;
+  el.innerHTML=`Operated by <b style="color:var(--primary-2)">Kai</b> · using ${knowledgeN} knowledge source${knowledgeN===1?'':'s'} · ${by.plugin.length} capabilit${by.plugin.length===1?'y':'ies'} from your Stack`;
 }
 
 // Fix actions can be triggered from anywhere (e.g. a checkrow fix button on Browse or Chat), so
@@ -3241,9 +3391,212 @@ function agnesDetailPanel(c){
 
 let currentDetailId=null;   // tracks whatever detail page is open, so a state-preset switch (see
                             // applyStatePreset) can refresh it in place, same as toggle() already does
+// ── Ask Agnes header button ── the green Agnes-accent action shared by every detail header.
+// `filled` makes it the primary green CTA (used when there's no other filled action, e.g. the
+// item is Required, already in stack, or a copy-only recipe); otherwise it's a softer green.
+function askAgnesBtn(prompt, filled){
+  const cls = filled ? 'btn primary' : 'btn agnesbtn';
+  return `<button class="${cls}" onclick="askAgnesAbout('${esc(prompt).replace(/'/g,"\\'")}')"><span class="bi">💬</span> Ask Agnes about this</button>`;
+}
+
+// ── Shared detail-page header ── ONE reusable header for all five asset types. The container,
+// spacing, title/description alignment, metadata rhythm, action area, and decorative gradient +
+// dotted background are identical across types; only the icon, accent color, badges, plain-text
+// scale, primary action, contextual note, and optional command/query differ by type.
+function detailHeader(c){
+  const T=TYPE[c.type], d=c.d||{};
+
+  // 1 · IDENTITY badges — categorical/state only: type · (source) · required/optional · readiness/privacy.
+  const badges=[`<span class="tag ${c.type}">${T.ico} ${esc(T.label)}</span>`];
+  if(c.type==='plugin' && c.source)
+    badges.push(`<span class="tag src-${c.source}"><span class="srcdot ${c.source}"></span>${c.source==='curated'?'Curated':'Flea Market'}</span>`);
+  if(isRequired(c)) badges.push(`<span class="tag req">Required</span>`);
+  else if(c.type==='data'||c.type==='memory'||c.type==='library') badges.push(`<span class="tag opt">Optional</span>`);
+  badges.push(`<span class="tag status">${esc(c.type==='library'?(d.visibility||c.status):c.status)}</span>`);
+  if(c.type==='recipe') badges.push(`<span class="tag status">Query template</span>`);
+
+  // 2 · SCALE / OWNERSHIP as plain text with dot separators (counts, team, files, rows, items…).
+  const bits=[];
+  const ownerLabel = c.type==='library' ? 'Owner' : 'Team';
+  let owner = c.type==='library'
+    ? ((d.owner && d.owner!=='You') ? d.owner : (c.team && c.team!=='You' ? c.team : ''))
+    : ((c.team && !['Community','You'].includes(c.team)) ? c.team : (d.owner||''));
+  if(owner) bits.push(`${ownerLabel} <b>${esc(owner)}</b>`);
+  if(c.meta && c.type!=='recipe') bits.push(esc(c.meta));       // recipe's meta ("Query template") is a badge
+  const mtext = bits.length ? `<span class="mtext">${bits.join('<span class="dot">·</span>')}</span>` : '';
+
+  // 3 · OPTIONAL tags — quieter than the primary metadata.
+  const tags=(c.tags||[]).map(tg=>`<span class="chip" onclick="filterTo('${c.type}');setTag('${tg}')">${esc(tg)}</span>`).join('');
+
+  // 4 · CONTEXTUAL note — privacy for uploads, auto-add for required, sync/reference notes otherwise.
+  let note='', ni='✦';
+  if(c.type==='library'){ ni='🔒';
+    note=/shared/i.test(c.status)?'Shared with your team — searchable by their AI too.':'Your files stay private — only your AI can search them.';
+  } else if(isRequired(c)){
+    note=c.type==='memory'?'Added automatically for your team — always available to your AI.':'Added automatically for your team — always in your stack.';
+  } else if(c.type==='data'){ note=stack.has(c.id)?"In your stack — your AI can query it in plain language.":"Powers your AI's queries once it's in your stack.";
+  } else if(c.type==='memory'){ note="Feeds your AI's answers and recommendations.";
+  } else if(c.type==='recipe'){ ni='ℹ'; note='A reference query — nothing to add or sync.'; }
+  const noteHtml = note ? `<span class="dh-note"><span class="ni">${ni}</span>${esc(note)}</span>` : '<span></span>';
+
+  // 5 · ACTIONS — exactly one filled accent action. Add is the filled green CTA when available;
+  // otherwise Ask Agnes becomes the filled green standout. Required/Remove/Copy stay neutral.
+  const canAdd = TYPE[c.type].stack && !isRequired(c) && !stack.has(c.id)
+    && !isRestrictedPackage(c.id) && !isAccessRequested(c.id);
+  const askPrompt = c.type==='recipe'
+    ? 'Explain what the '+c.name+' recipe does and when to use it.'
+    : 'Should I add '+c.name+' to my stack? What will my AI gain?';
+
+  return `<div class="dhero" style="--accent:var(--${c.type});--accent-soft:var(--${c.type}-soft)">
+    <div class="dglyph" style="${iconWrap(c.type)}">${T.ico}</div>
+    <div class="body">
+      <h1>${esc(c.name)} <span class="idchip">${esc(c.id)}</span></h1>
+      <p class="desc">${esc(c.desc)}</p>
+      <div class="metaline">${badges.join('')}${mtext}</div>
+      ${tags?`<div class="htags">${tags}</div>`:''}
+      <div class="dh-foot">${noteHtml}<div class="actions">${addBtnHtml(c,true)}${askAgnesBtn(askPrompt,!canAdd)}</div></div>
+    </div>
+  </div>`;
+}
+
+// Add a dependency straight from a plugin's "Required data" list without leaving the plugin
+// page — toggle() would re-open the dependency's own detail, pulling the user out of the
+// decision they're making. Add it, then re-render the plugin detail in place.
+function addRequiredData(depId, pluginId){
+  const c=CATALOG.find(x=>x.id===depId);
+  if(!c||isRequired(c))return;
+  if(isRestrictedPackage(depId)){toast('Access is required for this package');return;}
+  if(isAccessRequested(depId)){toast('Access request already sent');return;}
+  if(!stack.has(depId)){
+    stack.add(depId);
+    toast(c.name+' added to your stack');
+    journeyState.stackSetupDone=true;
+    syncSharedState();
+    render();
+  }
+  openDetail(pluginId);
+}
+
+// ── Plugin detail page ── decision-first IA. Answers, top to bottom: what is this ·
+// why would I want it (What you get) · what does it need (Required data) · what can it do
+// (Capabilities) · how do I use it (Example prompts) · the fine print (Documentation +
+// Details sidebar). Metadata that used to crowd the hero now lives in the sidebar.
+function renderPluginDetail(c){
+  const d=c.d||{}, T=TYPE[c.type];
+  const inStack=stack.has(c.id);
+  const comps=d.components||[];
+  const isFlea=c.source==='flea';
+
+  // Header is the shared detailHeader(c); everything below is plugin-specific page content.
+  const fleaCaution = isFlea
+    ? `<div class="callout" style="background:var(--amber-soft);border-color:var(--amber-line);color:var(--amber)"><span>⚠</span><div><b style="color:var(--amber)">Flea Market plugin.</b> Uploaded by ${esc(d.author)}, not admin-curated — no formal review bar. Check the author and what it does before adding.</div></div>`
+    : '';
+
+  // WHAT YOU GET — outcome-oriented value list. Prefer authored gains; fall back to `use`.
+  const gains=(d.gains&&d.gains.length?d.gains:(d.use||[]).map(u=>u.replace(/^["']|["']$/g,'')));
+  const gainList=gains.length?`<div class="panel valuepanel">
+      <h2>What you get</h2>
+      <p class="valuelede">After adding this plugin, your AI can:</p>
+      <ul class="gainlist">${gains.map(g=>`<li><span class="ck">✓</span> ${esc(g)}</li>`).join('')}</ul>
+    </div>`:'';
+
+  // REQUIRED DATA — the key pre-add check. Each dependency shows its status + an inline Add.
+  const deps=(c.worksWith||[]).map(id=>CATALOG.find(x=>x.id===id)).filter(Boolean);
+  const missing=deps.filter(p=>!stack.has(p.id)&&!isRequired(p));
+  const reqRow=p=>{
+    const pin=stack.has(p.id), preq=isRequired(p);
+    const restricted=isRestrictedPackage(p.id), requested=isAccessRequested(p.id);
+    let right;
+    if(pin||preq) right=`<span class="reqstat ok">✓ ${preq?'Required':'In Stack'}</span>`;
+    else if(restricted) right=`<span class="reqlocked">🔒 Restricted</span>`;
+    else if(requested) right=`<span class="reqlocked">⌛ Requested</span>`;
+    else right=`<span class="reqstat missing">● Missing</span><button class="reqadd" onclick="event.stopPropagation();addRequiredData('${p.id}','${c.id}')">+ Add</button>`;
+    return `<div class="reqrow" onclick="openDetail('${p.id}')">
+      <div class="tico" style="width:32px;height:32px;font-size:15px;${iconWrap(p.type)}">${TYPE[p.type].ico}</div>
+      <div class="grow"><div class="rn">${esc(p.name)}</div><div class="rd">${esc(p.desc)}</div></div>
+      <div style="display:flex;align-items:center;gap:10px">${right}</div>
+    </div>`;
+  };
+  const reqPanel=deps.length?`<div class="panel">
+      <h2>Required data</h2>
+      <p class="secsub">${missing.length
+        ? `This plugin runs on the data below. <b style="color:var(--amber)">${missing.length} package${missing.length===1?" isn't":"s aren't"} in your stack yet</b> — add ${missing.length===1?'it':'them'}, or your AI will have the skills but nothing to run them on.`
+        : `All the data this plugin needs is already in your stack — you're good to go.`}</p>
+      ${deps.map(reqRow).join('')}
+    </div>`:'';
+
+  // CAPABILITIES — each skill/agent as a scannable card: what it is, what it does, how to
+  // invoke it, and what it produces. (Was "What's inside this plugin".)
+  const capCards=comps.map(k=>{
+    const isAgent=k[0]==='agent';
+    const invStyle=isAgent?' style="color:var(--plugin);background:var(--plugin-soft);border-color:#e0d3ee"':'';
+    return `<div class="capcard">
+      <div class="caphead"><span class="ct ${esc(k[0])}">${esc(k[0])}</span><span class="capname">${esc(k[1])}</span></div>
+      <p class="capdesc">${esc(k[2])}</p>
+      <div class="caprow"><span class="caplbl">Command</span><code class="invoke"${invStyle}>${esc(k[3])}</code></div>
+      ${k[4]?`<div class="caprow"><span class="caplbl">Produces</span><span class="capprod"><span class="pk">→</span>${esc(k[4])}</span></div>`:''}
+    </div>`;
+  }).join('');
+  const capPanel=comps.length?`<div class="panel">
+      <h2>Capabilities</h2>
+      <p class="secsub">Adding the plugin installs all of these at once — you don't add skills or agents individually.</p>
+      <div class="capcards">${capCards}</div>
+    </div>`:'';
+
+  // EXAMPLE PROMPTS — clickable suggestions that drop you into Agnes with the prompt pre-filled.
+  const prompts=(d.prompts&&d.prompts.length?d.prompts:(d.use||[]).map(u=>u.replace(/^["']|["']$/g,''))).slice(0,6);
+  const promptPanel=prompts.length?`<div class="panel">
+      <h2>Example prompts</h2>
+      <p class="secsub">Once it's in your stack, try asking Agnes:</p>
+      <div class="promptgrid">${prompts.map(p=>`<button class="promptcard" onclick="askAgnesAbout('${esc(p).replace(/'/g,"\\'")}')"><span class="pq">${esc(p)}</span><span class="parrow">→</span></button>`).join('')}</div>
+    </div>`:'';
+
+  // DOCUMENTATION — collapsed by default, kept below the product story.
+  const about=(d.about||[c.desc]).map(p=>`<p>${esc(p)}</p>`).join('');
+  const docPanel=`<details class="docblock">
+      <summary><span>Documentation</span><span class="chev">▶</span></summary>
+      <div class="docbody">${about}
+        <p style="color:var(--dim);font-size:12.5px">After adding, invoke the skills and agents above in Claude Code using the commands listed under Capabilities.</p>
+      </div>
+    </details>`;
+
+  // DETAILS SIDEBAR — the technical metadata, out of the way but one glance away.
+  const sideRows=[
+    isFlea?['Uploaded by',d.author]:['Curator',d.curator],
+    ['Version',d.version],
+    ['Category',c.category],
+    ['Marketplace',d.marketplace],
+    ['Status',c.status],
+    ['Updated',d.updated],
+    ['Bundle size',d.size],
+    isFlea?['Installs',d.installs]:null
+  ].filter(row=>row&&row[1]!=null&&row[1]!=='');
+  const rows=sideRows.map(([k,v])=>`<div class="drow"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
+
+  document.getElementById('detailwrap').innerHTML=`
+    <div class="back" onclick="go(lastList)">← Back to ${lastList==='stack'?'Stack':'catalog'}</div>
+    <div class="crumb"><a onclick="go('browse')">Browse</a> › <a onclick="filterTo('plugin')">Plugins</a> › ${esc(c.name)}</div>
+    ${detailHeader(c)}
+    ${fleaCaution}
+    ${gainList}
+    <div class="cols">
+      <div>
+        ${reqPanel}
+        ${capPanel}
+        ${promptPanel}
+        ${docPanel}
+      </div>
+      <div><div class="panel"><h2>Details</h2>${rows}</div></div>
+    </div>`;
+  window.scrollTo({top:0,behavior:'instant'});
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id==='detail'));
+  setRailActive(lastList);
+}
+
 function openDetail(id){
   const c=CATALOG.find(x=>x.id===id); if(!c)return;
   currentDetailId=id;
+  if(c.type==='plugin'){ return renderPluginDetail(c); }
   const T=TYPE[c.type], d=c.d||{};
   const rightRows=[];
   if(c.type==='data'){
@@ -3333,48 +3686,16 @@ function openDetail(id){
       ${rel?`<h2 style="margin-top:16px">Touches tables</h2><div class="chips">${rel}</div>`:''}</div>`;
   }
 
-  const runcmd = c.type==='data'
-    ? `<div class="runcmd"><div class="lbl">Query locally after sync:</div><div class="codebox"><span class="k">agnes query</span> "SELECT * FROM ${esc(d.qualified||c.id)} LIMIT 5"</div></div>`
-    : c.type==='plugin'
-    ? `<div class="runcmd"><div class="lbl">After sync, invoke its skills and agents in Claude Code — see "What's inside" below.</div></div>`
-    : c.type==='library'
-    ? `<div class="runcmd"><div class="lbl">After sync, your agent can search these files and cite them.</div></div>`
-    : c.type==='recipe'
-    ? `<div class="runcmd"><div class="lbl">Copy the query below and run it — no need to add anything to your stack.</div></div>`
+  // Data's "query after sync" block lives just below the hero — out of the identity zone.
+  const dataRun = c.type==='data'
+    ? `<div class="runcard"><span class="rc-lbl">${T.ico} Query locally after sync</span><div class="codebox"><span class="k">agnes query</span> "SELECT * FROM ${esc(d.qualified||c.id)} LIMIT 5"</div></div>`
     : '';
-  const fleaCaution = (c.type==='plugin'&&c.source==='flea')
-    ? `<div class="callout" style="background:var(--amber-soft);border-color:var(--amber-line);color:var(--amber);margin:14px 0 0"><span>⚠</span><div><b style="color:var(--amber)">Flea Market plugin.</b> Uploaded by a colleague (${esc(d.author)}), not admin-curated. No formal review bar — check the author and what it does before adding.</div></div>`
-    : '';
-  const srcMeta = c.source
-    ? `<span class="tag src-${c.source}">${c.source==='curated'?'Curated':'Flea Market'}</span>` : '';
-  const tagMeta = (c.tags||[]).map(tg=>`<span class="chip" onclick="filterTo('${c.type}');setTag('${tg}')">${esc(tg)}</span>`).join('');
 
   document.getElementById('detailwrap').innerHTML=`
     <div class="back" onclick="go(lastList)">← Back to ${lastList==='stack'?'Stack':'catalog'}</div>
     <div class="crumb"><a onclick="go('browse')">Browse</a> › <a onclick="filterTo('${c.type}')">${esc(T.label)}</a> › ${esc(c.name)}</div>
-    <div class="dhero">
-      <div class="dglyph" style="${iconWrap(c.type)}">${T.ico}</div>
-      <div class="body">
-        <h1>${esc(c.name)} <span class="idchip">${esc(c.id)}</span></h1>
-        <p class="desc">${esc(c.desc)}</p>
-        <div class="metaline">
-          <span class="tag ${c.type}">${esc(T.label)}</span>
-          ${srcMeta}
-          ${isRequired(c)?'<span class="tag req">Required</span>':''}
-          <span class="tag status">${esc(c.status)}</span>
-          <span>Team <b>${esc(c.team)}</b></span>
-          <span>·</span><span>${esc(c.meta)}</span>
-        </div>
-        ${tagMeta?`<div class="chips" style="margin-bottom:12px">${tagMeta}</div>`:''}
-        <div class="actions">${addBtnHtml(c,true)}
-          ${askAgnesChip('Why should I add '+c.name+' to my stack?','Ask Agnes about this')}
-          ${isRequired(c)?'<span class="muted" style="font-size:12.5px">Added automatically for your team — can\'t be removed.</span>':''}
-          ${c.type==='recipe'?'<span class="muted" style="font-size:12.5px">Recipes are reference queries — nothing to add or sync.</span>':''}
-        </div>
-        ${fleaCaution}
-        ${runcmd}
-      </div>
-    </div>
+    ${detailHeader(c)}
+    ${dataRun}
     ${agnesDetailPanel(c)}
     <div class="cols">
       <div>
